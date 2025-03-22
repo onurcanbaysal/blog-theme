@@ -1,0 +1,66 @@
+---
+import BaseHead from '@/components/BaseHead.astro'
+import Header from '@/components/Header.astro'
+import Footer from '@/components/Footer.astro'
+import ProviderTheme from '@/components/ProviderTheme.astro'
+import ProviderAnimations from '@/components/ProviderAnimations.astro'
+import TwSizeIndicator from '@/components/TwSizeIndicator.astro'
+import EditBlog from '@/components/editBlog.astro'
+
+const { title, description, image, articleDate, articleUpdatedDate, tags, category } = Astro.props
+---
+
+<html lang='en' class='scroll-smooth'>
+	<head>
+		<BaseHead 
+			title={title} 
+			description={description} 
+			ogImage={image} 
+			articleDate={articleDate}
+			articleUpdatedDate={articleUpdatedDate}
+			tags={tags}
+			category={category}
+		/>
+		<ProviderTheme />
+		<ProviderAnimations />
+	</head>
+
+	<body class='bg-white text-stone-950 dark:bg-[#0a0910] dark:text-white'>
+		<main
+			class='px-5 sm:mx-auto sm:max-w-2xl sm:px-8 lg:px-0 antialiased md:max-w-6xl grid gap-12 mt-4 overflow-hidden md:overflow-visible'
+		>
+			<Header />
+			<slot />
+			<Footer />
+		</main>
+		<TwSizeIndicator />
+		<EditBlog />
+		<style>
+			body {
+				margin-left: calc(100vw - 100%); /* prevent layout shift */
+			}
+
+			/* Mobile responsive styles for small screens */
+			@media (max-width: 400px) {
+				main {
+					padding-left: 0.75rem !important;
+					padding-right: 0.75rem !important;
+					margin-top: 0.5rem !important;
+					gap: 1.5rem !important;
+				}
+
+				/* Ensure content doesn't overflow on small screens */
+				main > * {
+					max-width: 100%;
+					overflow-x: hidden;
+				}
+
+				/* Adjust any potential horizontal scrolling */
+				body {
+					overflow-x: hidden;
+					width: 100%;
+				}
+			}
+		</style>
+	</body>
+</html>

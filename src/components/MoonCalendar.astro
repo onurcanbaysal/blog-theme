@@ -1,0 +1,399 @@
+---
+// MoonCalendar.astro - Embeddable moon phase calendar component
+import { Body, MoonPhase, Illumination, SearchMoonQuarter, NextMoonQuarter } from "../data/astronomy";
+
+// Define a type for moon phases in Slovene
+type MoonPhaseType = 'mlaj' | 'rastociSrp' | 'prviKrajec' | 'rastocaLuna' | 'scip' | 'padajocaLuna' | 'zadnjiKrajec' | 'padajociSrp';
+
+// Dictionary of moon phases and their emoji representations
+const MOON_EMOJIS: Record<MoonPhaseType, string> = {
+  mlaj: "🌑",
+  rastociSrp: "🌒",
+  prviKrajec: "🌓",
+  rastocaLuna: "🌔",
+  scip: "🌕",
+  padajocaLuna: "🌖",
+  zadnjiKrajec: "🌗",
+  padajociSrp: "🌘"
+};
+
+// Array of major moon phases in Slovene
+const PHASE_NAMES = ['mlaj', 'prviKrajec', 'scip', 'zadnjiKrajec'] as const;
+type MajorPhase = typeof PHASE_NAMES[number];
+
+// Dictionary to display human-readable Slovene phase names
+const PHASE_DISPLAY_NAMES: Record<MoonPhaseType, string> = {
+  mlaj: "Mlaj",
+  rastociSrp: "Rastoči srp",
+  prviKrajec: "Prvi krajec",
+  rastocaLuna: "Rastoča luna",
+  scip: "Ščip",
+  padajocaLuna: "Padajoča luna",
+  zadnjiKrajec: "Zadnji krajec",
+  padajociSrp: "Padajoči srp"
+};
+
+// Dictionary for English phase names (for accessibility)
+const ENGLISH_PHASE_NAMES: Record<MoonPhaseType, string> = {
+  mlaj: "New Moon",
+  rastociSrp: "Waxing Crescent",
+  prviKrajec: "First Quarter",
+  rastocaLuna: "Waxing Gibbous",
+  scip: "Full Moon",
+  padajocaLuna: "Waning Gibbous",
+  zadnjiKrajec: "Last Quarter",
+  padajociSrp: "Waning Crescent"
+};
+
+// Format month names in Slovenian
+const monthNames = [
+  'Januar', 'Februar', 'Marec', 'April', 'Maj', 'Junij',
+  'Julij', 'Avgust', 'September', 'Oktober', 'November', 'December'
+];
+
+// Get important moon phases for the month
+function getImportantPhasesForMonth(year: number, month: number) {
+  const phases = [];
+  
+  // Start from the beginning of the month
+  let currentDate = new Date(year, month, 1);
+  // Get one day before the start of next month to include all events in the current month
+  const nextMonthStart = new Date(year, month + 1, 1);
+  
+  // Find the first important phase
+  let moonQuarter = SearchMoonQuarter(currentDate);
+  
+  // Add all important phases within this month
+  while (moonQuarter.time.date < nextMonthStart) {
+    if (moonQuarter.time.date >= currentDate) {
+      const phaseName = PHASE_NAMES[moonQuarter.quarter] as MoonPhaseType;
+      phases.push({
+        date: new Date(moonQuarter.time.date),
+        phase: phaseName,
+        emoji: MOON_EMOJIS[phaseName],
+        displayName: PHASE_DISPLAY_NAMES[phaseName],
+        englishName: ENGLISH_PHASE_NAMES[phaseName]
+      });
+    }
+    moonQuarter = NextMoonQuarter(moonQuarter);
+  }
+  
+  return phases;
+}
+
+// Helper function to format time
+function formatTime(date: Date): string {
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  return `${hours}:${minutes}`;
+}
+
+// Get current date information
+const currentDate = new Date();
+const currentYear = currentDate.getFullYear();
+const currentMonth = currentDate.getMonth();
+
+// Get moon phases for current month
+const monthPhases = getImportantPhasesForMonth(currentYear, currentMonth);
+---
+
+<div class="moon-calendar-component">
+  <!-- Month/Year navigation - styled as a card -->
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-3 mb-3 flex justify-between items-center">
+    <button id="prevMonth" class="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors" aria-label="Prejšnji mesec">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    
+    <span id="monthYear" class="text-lg font-semibold text-gray-800 dark:text-white">
+      {monthNames[currentMonth]} {currentYear}
+    </span>
+    
+    <button id="nextMonth" class="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors" aria-label="Naslednji mesec">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+  </div>
+  
+  <!-- Main content - Moon phases for the month -->
+  <div class="space-y-2" id="phasesContainer">
+    {monthPhases.length > 0 ? (
+      monthPhases.map((phase) => (
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-3 transition-all duration-300 hover:shadow-md">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="text-4xl" role="img" aria-label={phase.englishName}>{phase.emoji}</div>
+              <div>
+                <h4 class="text-base font-semibold text-gray-800 dark:text-white">{phase.displayName}</h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                  {phase.date.getDate()}. {monthNames[phase.date.getMonth()]} {phase.date.getFullYear()}
+                </p>
+              </div>
+            </div>
+            <div class="text-xl font-bold text-primary-600 dark:text-primary-400 tabular-nums">
+              {formatTime(phase.date)}
+            </div>
+          </div>
+        </div>
+      ))
+    ) : (
+      <div class="text-center py-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+        <p class="text-gray-600 dark:text-gray-400">V tem mesecu ni pomembnih luninih men.</p>
+      </div>
+    )}
+  </div>
+</div>
+
+<script>
+  import { animate } from 'motion'
+  import { Body, MoonPhase, Illumination, SearchMoonQuarter, NextMoonQuarter } from "../data/astronomy";
+  
+  const showAnimations = localStorage.getItem('animations') === 'true'
+
+  if (showAnimations) {
+    animate(
+      '.text-4xl',
+      { scale: [0.8, 1], opacity: [0, 1] },
+      {
+        duration: 1.5,
+        opacity: { duration: 2 }
+      }
+    )
+  }
+  
+  // Slovenian month names
+  const monthNames = [
+    'Januar', 'Februar', 'Marec', 'April', 'Maj', 'Junij',
+    'Julij', 'Avgust', 'September', 'Oktober', 'November', 'December'
+  ];
+  
+  // Type definition for moon phases
+  type MoonPhaseType = 'mlaj' | 'rastociSrp' | 'prviKrajec' | 'rastocaLuna' | 'scip' | 'padajocaLuna' | 'zadnjiKrajec' | 'padajociSrp';
+  
+  // Dictionary of moon phases and their emoji representations
+  const MOON_EMOJIS: Record<MoonPhaseType, string> = {
+    mlaj: "🌑",
+    rastociSrp: "🌒",
+    prviKrajec: "🌓",
+    rastocaLuna: "🌔",
+    scip: "🌕",
+    padajocaLuna: "🌖",
+    zadnjiKrajec: "🌗",
+    padajociSrp: "🌘"
+  };
+
+  // Array of major moon phases in Slovene with type safety
+  const PHASE_NAMES = ['mlaj', 'prviKrajec', 'scip', 'zadnjiKrajec'] as const;
+  type MajorPhase = typeof PHASE_NAMES[number];
+
+  // Dictionary to display human-readable Slovene phase names
+  const PHASE_DISPLAY_NAMES: Record<MoonPhaseType, string> = {
+    mlaj: "Mlaj",
+    rastociSrp: "Rastoči srp",
+    prviKrajec: "Prvi krajec",
+    rastocaLuna: "Rastoča luna",
+    scip: "Ščip",
+    padajocaLuna: "Padajoča luna",
+    zadnjiKrajec: "Zadnji krajec",
+    padajociSrp: "Padajoči srp"
+  };
+
+  // English phase names (for accessibility)
+  const ENGLISH_PHASE_NAMES: Record<MoonPhaseType, string> = {
+    mlaj: "New Moon",
+    rastociSrp: "Waxing Crescent",
+    prviKrajec: "First Quarter",
+    rastocaLuna: "Waxing Gibbous",
+    scip: "Full Moon",
+    padajocaLuna: "Waning Gibbous",
+    zadnjiKrajec: "Last Quarter",
+    padajociSrp: "Waning Crescent"
+  };
+  
+  // Utility function to format time in HH:MM format
+  function formatTime(date: Date): string {
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  }
+  
+  // Get moon phases for the specified month using proper astronomical calculations
+  async function getImportantPhasesForMonth(year: number, month: number) {
+    const phases = [];
+    
+    // Start from the beginning of the month
+    let currentDate = new Date(year, month, 1);
+    // Get one day before the start of next month to include all events in the current month
+    const nextMonthStart = new Date(year, month + 1, 1);
+    
+    // Find the first important phase
+    let moonQuarter = SearchMoonQuarter(currentDate);
+    
+    // Add all important phases within this month
+    while (moonQuarter.time.date < nextMonthStart) {
+      if (moonQuarter.time.date >= currentDate) {
+        const phaseName = PHASE_NAMES[moonQuarter.quarter] as MoonPhaseType;
+        phases.push({
+          date: new Date(moonQuarter.time.date),
+          phase: phaseName,
+          emoji: MOON_EMOJIS[phaseName],
+          displayName: PHASE_DISPLAY_NAMES[phaseName],
+          englishName: ENGLISH_PHASE_NAMES[phaseName]
+        });
+      }
+      moonQuarter = NextMoonQuarter(moonQuarter);
+    }
+    
+    return phases;
+  }
+  
+  // Function to render the phases list
+  function renderPhasesList(phases: any[]) {
+    const phasesContainer = document.getElementById('phasesContainer');
+    if (!phasesContainer) return;
+    
+    if (phases.length > 0) {
+      let html = '';
+      
+      phases.forEach(phase => {
+        const phaseDate = new Date(phase.date);
+        html += `
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-3 transition-all duration-300 hover:shadow-md">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-3">
+                <div class="text-4xl" role="img" aria-label="${phase.englishName}">${phase.emoji}</div>
+                <div>
+                  <h4 class="text-base font-semibold text-gray-800 dark:text-white">${phase.displayName}</h4>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">
+                    ${phaseDate.getDate()}. ${monthNames[phaseDate.getMonth()]} ${phaseDate.getFullYear()}
+                  </p>
+                </div>
+              </div>
+              <div class="text-xl font-bold text-primary-600 dark:text-primary-400 tabular-nums">
+                ${formatTime(phaseDate)}
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      
+      phasesContainer.innerHTML = html;
+    } else {
+      phasesContainer.innerHTML = `
+        <div class="text-center py-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+          <p class="text-gray-600 dark:text-gray-400">V tem mesecu ni pomembnih luninih men.</p>
+        </div>
+      `;
+    }
+    
+    // Apply animations if enabled
+    if (showAnimations) {
+      animate(
+        '.text-4xl',
+        { scale: [0.8, 1], opacity: [0, 1] },
+        {
+          duration: 1.5,
+          opacity: { duration: 2 }
+        }
+      );
+    }
+  }
+  
+  // Current state for month and year
+  let currentMonth = new Date().getMonth();
+  let currentYear = new Date().getFullYear();
+  
+  // Update the month/year display and phases
+  async function updateMonthDisplay() {
+    const monthYearElement = document.getElementById('monthYear');
+    if (monthYearElement) {
+      monthYearElement.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+    }
+    
+    // Get and render phases for the selected month
+    const phases = await getImportantPhasesForMonth(currentYear, currentMonth);
+    renderPhasesList(phases);
+  }
+  
+  // Event handlers for navigation buttons
+  function handlePrevMonth() {
+    currentMonth--;
+    if (currentMonth < 0) {
+      currentMonth = 11;
+      currentYear--;
+    }
+    updateMonthDisplay();
+  }
+  
+  function handleNextMonth() {
+    currentMonth++;
+    if (currentMonth > 11) {
+      currentMonth = 0;
+      currentYear++;
+    }
+    updateMonthDisplay();
+  }
+  
+  // Store handler references
+  const setupEventListeners = () => {
+    const prevMonthBtn = document.getElementById('prevMonth');
+    const nextMonthBtn = document.getElementById('nextMonth');
+    
+    // Clean up existing listeners first
+    prevMonthBtn?.removeEventListener('click', handlePrevMonth);
+    nextMonthBtn?.removeEventListener('click', handleNextMonth);
+    
+    // Add new listeners
+    prevMonthBtn?.addEventListener('click', handlePrevMonth);
+    nextMonthBtn?.addEventListener('click', handleNextMonth);
+  };
+  
+  let initialized = false;
+  
+  // Initialize the component
+  function initializeComponent() {
+    if (initialized) return;
+    
+    updateMonthDisplay();
+    setupEventListeners();
+    
+    initialized = true;
+  }
+  
+  // Initialize on page load and after transitions
+  document.addEventListener('astro:page-load', () => {
+    initializeComponent();
+  });
+  
+  // Clean up on page transitions
+  document.addEventListener('astro:before-swap', () => {
+    const prevMonthBtn = document.getElementById('prevMonth');
+    const nextMonthBtn = document.getElementById('nextMonth');
+    
+    prevMonthBtn?.removeEventListener('click', handlePrevMonth);
+    nextMonthBtn?.removeEventListener('click', handleNextMonth);
+    
+    initialized = false;
+  });
+  
+  // Initial load if the page is already loaded
+  if (document.readyState === 'complete') {
+    initializeComponent();
+  }
+</script>
+
+<style>
+  .moon-calendar-component {
+    width: 100%;
+    max-width: 36rem; /* Limit max width to be more suitable for blog content */
+    margin: 1rem auto;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .moon-calendar-component {
+      font-size: 0.85rem;
+    }
+  }
+</style> 

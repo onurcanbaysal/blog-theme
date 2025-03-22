@@ -1,0 +1,148 @@
+---
+// LazyAdSense.astro - A component for lazy-loading AdSense ads
+interface Props {
+  type: 'sidebar' | 'multiplex' | 'responsive';
+  className?: string;
+}
+
+// Define proper types for ad configurations
+interface AdConfig {
+  style: string;
+  slot: string;
+  format?: string;
+  responsive?: string;
+}
+
+const { type, className = '' } = Astro.props;
+
+// Ad slot configurations
+const adConfigs: Record<string, AdConfig> = {
+  sidebar: {
+    style: "display:inline-block;width:230px;height:400px",
+    slot: "XXXXXXXXXX",
+  },
+  multiplex: {
+    style: "display:block",
+    slot: "XXXXXXXXXX",
+    format: "autorelaxed",
+  },
+  responsive: {
+    style: "display:block",
+    slot: "XXXXXXXXXX",
+    format: "auto",
+    responsive: "true",
+  }
+};
+
+const config = adConfigs[type];
+---
+
+<div 
+  class={`adsbygoogle-container ${className} ad-${type}`} 
+  data-ad-client="ca-pub-XXXXXXXXXXXXXXXXXXX"
+  data-ad-slot={config.slot}
+  data-ad-format={config.format}
+  data-full-width-responsive={config.responsive}
+  data-ad-style={config.style}
+>
+  <!-- The ad will be rendered here when visible -->
+  <div class="ad-placeholder">
+    <span class="ad-placeholder-text">Oglas</span>
+  </div>
+</div>
+
+<style>
+  .adsbygoogle-container {
+    width: 100%;
+    min-height: 100px;
+    margin: 1rem 0;
+    display: block;
+    text-align: center;
+    position: relative;
+  }
+
+  .ad-sidebar {
+    width: 230px;
+    min-height: 400px;
+  }
+
+  .ad-placeholder {
+    background-color: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    width: 100%;
+    height: 100%;
+    min-height: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ad-placeholder-text {
+    color: #999;
+    font-size: 0.9rem;
+  }
+</style>
+
+<script>
+  // This script handles lazy loading of ads
+  document.addEventListener('DOMContentLoaded', () => {
+    // Add type definition for adsbygoogle
+    interface Window {
+      adsbygoogle?: any[];
+    }
+    
+    // Create IntersectionObserver to detect when ad containers are visible
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const adContainer = entry.target as HTMLElement;
+          
+          // Only initialize if not already done
+          if (!adContainer.classList.contains('ad-loaded')) {
+            loadAd(adContainer);
+            observer.unobserve(adContainer); // Stop observing once loaded
+          }
+        }
+      });
+    }, {
+      rootMargin: '200px', // Load ads 200px before they become visible
+      threshold: 0
+    });
+
+    // Function to create and load an ad
+    function loadAd(container: HTMLElement) {
+      // Create the ins element
+      const adElement = document.createElement('ins');
+      adElement.className = 'adsbygoogle';
+      adElement.style.cssText = container.dataset.adStyle || '';
+      adElement.dataset.adClient = container.dataset.adClient;
+      adElement.dataset.adSlot = container.dataset.adSlot;
+      
+      if (container.dataset.adFormat) {
+        adElement.dataset.adFormat = container.dataset.adFormat;
+      }
+      
+      if (container.dataset.fullWidthResponsive) {
+        adElement.dataset.fullWidthResponsive = container.dataset.fullWidthResponsive;
+      }
+
+      // Remove placeholder
+      container.innerHTML = '';
+      container.appendChild(adElement);
+      container.classList.add('ad-loaded');
+
+      // Initialize the ad
+      try {
+        (window as any).adsbygoogle = (window as any).adsbygoogle || [];
+        (window as any).adsbygoogle.push({});
+      } catch (e) {
+        console.error('Error loading AdSense ad:', e);
+      }
+    }
+
+    // Observe all ad containers
+    document.querySelectorAll('.adsbygoogle-container:not(.ad-loaded)').forEach(container => {
+      observer.observe(container);
+    });
+  });
+</script> 

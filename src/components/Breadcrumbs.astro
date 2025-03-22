@@ -1,0 +1,97 @@
+---
+import { Breadcrumbs as AstroBreadcrumbs } from "astro-breadcrumbs";
+import { sluglify } from '@/utils';
+
+interface Props {
+  category?: string;
+  title?: string;
+}
+
+// Define a type for our breadcrumb items
+interface Crumb {
+  text: string;
+  href: string;
+  isHome?: boolean;
+}
+
+const { category, title } = Astro.props;
+
+// Prepare crumbs array
+const customCrumbs: Crumb[] = [
+  {
+    text: "Domov",
+    href: "/",
+    isHome: true
+  }
+];
+
+// Add categories page if we have a category
+if (category) {
+  customCrumbs.push({
+    text: "Kategorije",
+    href: "/category"
+  });
+}
+
+// Add category if available
+if (category) {
+  customCrumbs.push({
+    text: category,
+    href: `/category/${sluglify(category)}/1`
+  });
+}
+
+// Add title if available
+if (title) {
+  customCrumbs.push({
+    text: title,
+    href: "#home"
+  });
+}
+---
+<div class="bg-gray-100 dark:bg-gray-800">
+  <div class="container flex items-center px-6 py-4 mx-auto overflow-x-auto whitespace-nowrap breadcrumbs-container">
+    {customCrumbs.map((crumb, index) => (
+      <>
+        {index > 0 && (
+          <span class="mx-5 md:mx-5 mx-2 text-gray-500 dark:text-gray-300 rtl:-scale-x-100">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 md:w-5 md:h-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <title>Breadcrumb separator</title>
+              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+            </svg>
+          </span>
+        )}
+
+        <a 
+          href={crumb.href} 
+          class={`text-sm md:text-base ${index === customCrumbs.length - 1 ? 'text-blue-800 dark:text-blue-200' : 'text-gray-600 dark:text-gray-200'} ${index !== customCrumbs.length - 1 ? 'hover:underline' : ''}`}
+          aria-label={crumb.isHome ? "Home" : crumb.text}
+        >
+          {crumb.isHome ? (
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 md:w-5 md:h-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <title>Home icon</title>
+              <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+            </svg>
+          ) : (
+            <span class="truncate max-w-[120px] sm:max-w-[200px] md:max-w-none inline-block align-middle">{crumb.text}</span>
+          )}
+        </a>
+      </>
+    ))}
+  </div>
+</div>
+
+<style>
+  .breadcrumbs-container {
+    font-size: 0.9rem;
+    font-weight:bold;
+    padding: 0.5rem 1rem;
+  }
+  
+  @media (max-width: 640px) {
+    .breadcrumbs-container {
+      font-size: 0.75rem;
+      padding: 0.375rem 0.75rem;
+    }
+  }
+</style> 

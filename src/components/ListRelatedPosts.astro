@@ -1,0 +1,50 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import { getCollection } from 'astro:content'
+import { cn, sluglify } from '@/utils'
+import { Image } from 'astro:assets'
+
+type Props = {
+	posts: CollectionEntry<'blog'>[]
+}
+
+const { posts } = Astro.props
+
+// Get random posts if no related posts are provided
+let displayPosts = posts;
+if (posts.length === 0) {
+    const allPosts = await getCollection('blog');
+    // Shuffle array and get up to 3 random posts
+    const shuffled = allPosts.sort(() => 0.5 - Math.random());
+    displayPosts = shuffled.slice(0, 3);
+}
+---
+
+<section class={cn(`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4`)}>
+	{
+		displayPosts.map((post) => {
+			return (
+				<a href={`/${sluglify(post.slug)}/`} class="block hover:no-underline group">
+					<div class='flex overflow-hidden rounded-lg shadow-sm hover:shadow transition-shadow duration-300 bg-white dark:bg-zinc-800 h-full'>
+						<div class='flex-shrink-0 w-16 h-16 md:w-20 md:h-20'>
+							<Image
+								src={post.data.heroImage}
+								width={160}
+								height={160}
+								format='webp'
+								quality={85}
+								class='w-full h-full object-cover transition-transform duration-300 group-hover:scale-105'
+								alt={`img of ${post.data.title}`}
+							/>
+						</div>
+						<div class='p-2 flex items-center'>
+							<h3 class='font-medium text-xs md:text-sm group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300 line-clamp-2'>
+								{post.data.title}
+							</h3>
+						</div>
+					</div>
+				</a>
+			)
+		})
+	}
+</section>

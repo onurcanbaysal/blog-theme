@@ -1,0 +1,91 @@
+---
+interface Props {
+	title?: string;
+}
+
+const { title = "OPOZORILO" } = Astro.props;
+---
+
+<div class="warning-banner">
+	<div class="warning-content">
+		<div class="warning-icon">
+			<svg 
+				aria-hidden="true"
+				xmlns="http://www.w3.org/2000/svg" 
+				width="24" 
+				height="24" 
+				viewBox="0 0 24 24" 
+				fill="none" 
+				stroke="currentColor" 
+				stroke-width="2" 
+				stroke-linecap="round" 
+				stroke-linejoin="round"
+			>
+				<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+				<path d="M12 9v4"></path>
+				<path d="M12 17h.01"></path>
+			</svg>
+		</div>
+		<div class="warning-text">
+			{title && <h4 class="title">{title}</h4>}
+			<div class="content">
+				<slot />
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	.warning-banner {
+		background-color: rgba(220, 53, 69, 0.1);
+		border-left: 4px solid #dc3545;
+		padding: 0.75rem 1rem;
+		margin: 1.5rem 0;
+		color: inherit;
+		font-weight: normal;
+	}
+
+	.warning-content {
+		display: flex;
+		align-items: flex-start;
+		gap: 1rem;
+	}
+
+	.warning-icon {
+		flex-shrink: 0;
+		margin-top: 0.25rem;
+	}
+
+	.warning-icon svg {
+		width: 24px;
+		height: 24px;
+		color: #dc3545;
+	}
+
+	.warning-text {
+		flex-grow: 1;
+	}
+
+	.title {
+		font-size: 1.1rem;
+		margin: 0 0 0.5rem 0;
+		font-weight: 600;
+		color: #dc3545;
+	}
+
+	.content {
+		font-size: 1rem;
+		line-height: 1.5;
+	}
+
+	/* For dark mode compatibility */
+	:global(.dark) .warning-banner {
+		background-color: rgba(220, 53, 69, 0.15);
+		border-left-color: #e95c6a;
+	}
+
+	:global(.dark) .warning-icon svg,
+	:global(.dark) .title {
+		color: #e95c6a;
+	}
+</style> 

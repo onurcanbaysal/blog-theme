@@ -1,0 +1,299 @@
+---
+import HeaderLink from '@/components/HeaderLink.astro'
+import Search from '@/components/Search.astro'
+import TagIcon from './icons/TagIcon.astro'
+import ToggleTheme from './ToggleTheme.astro'
+import MenuIcon from './icons/MenuIcon.astro'
+---
+
+<header class="relative flex items-center justify-between h-12 font-semibold px-4 md:px-6">
+	<!-- Logo / Home Link -->
+	<a class="text-lg" href="/">Domov</a>
+	
+	<!-- Right side menus container -->
+	<div class="flex items-center gap-2 md:gap-4">
+		<!-- Desktop nav menu - visible on md and up -->
+		<nav class="hidden md:flex items-center gap-4 pr-4 border-r border-gray-300 dark:border-gray-700">
+			<!-- About page link -->
+			<HeaderLink href="/about" class="flex items-center gap-1 hover:text-primary-500 px-2 py-1 rounded-md transition-colors duration-200">
+				<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<circle cx="12" cy="12" r="10"></circle>
+					<line x1="12" y1="8" x2="12" y2="12"></line>
+					<line x1="12" y1="16" x2="12.01" y2="16"></line>
+				</svg>
+				O nas
+			</HeaderLink>
+			
+			<!-- Services dropdown menu -->
+			<div class="relative">
+				<button id="desktop-services-toggle" class="flex items-center gap-1 hover:text-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50 rounded-md px-2 py-1 transition-all duration-200 cursor-pointer">
+					<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+					</svg>
+					<span>Storitve</span>
+					<svg id="desktop-services-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transform transition-transform duration-200 ml-1">
+						<polyline points="6 9 12 15 18 9"></polyline>
+					</svg>
+				</button>
+				<!-- Dropdown content -->
+				<div id="desktop-services-submenu" class="absolute left-0 mt-2 w-56 bg-white dark:bg-gray-800 shadow-lg rounded-md py-1 z-10 hidden transform origin-top-left transition-all duration-150 ease-in-out border border-gray-200 dark:border-gray-700">
+					<HeaderLink href="/web-design" class="flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700 px-4 py-2 transition-colors duration-150">
+						<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500 dark:text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+							<line x1="8" y1="21" x2="16" y2="21"></line>
+							<line x1="12" y1="17" x2="12" y2="21"></line>
+						</svg>
+						<span>Spletno Oblikovanje</span>
+					</HeaderLink>
+					<div class="border-t border-gray-200 dark:border-gray-700 my-1"></div>
+					<HeaderLink href="/graphic-design" class="flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700 px-4 py-2 transition-colors duration-150">
+						<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500 dark:text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+							<path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+							<path d="M2 2l7.586 7.586"></path>
+							<circle cx="11" cy="11" r="2"></circle>
+						</svg>
+						<span>Grafično Oblikovanje</span>
+					</HeaderLink>
+					<div class="border-t border-gray-200 dark:border-gray-700 my-1"></div>
+					<HeaderLink href="/seo" class="flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700 px-4 py-2 transition-colors duration-150">
+						<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500 dark:text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<circle cx="11" cy="11" r="8"></circle>
+							<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+							<line x1="8" y1="11" x2="14" y2="11"></line>
+						</svg>
+						<span>SEO Optimizacija</span>
+					</HeaderLink>
+				</div>
+			</div>
+			
+			<!-- Blog page link -->
+			<HeaderLink href="/blog" class="flex items-center gap-1 hover:text-primary-500 px-2 py-1 rounded-md transition-colors duration-200">
+				<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z" />
+				</svg>
+				Blog
+			</HeaderLink>
+			
+			<!-- Contact page link -->
+			<HeaderLink href="/contact" class="flex items-center gap-1 hover:text-primary-500 px-2 py-1 rounded-md transition-colors duration-200">
+				<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
+				</svg>
+				Kontakt
+			</HeaderLink>
+			
+			<HeaderLink href="/tags" class="flex items-center gap-1 hover:text-primary-500 px-2 py-1 rounded-md transition-colors duration-200">
+				<TagIcon /> 
+				Oznake
+			</HeaderLink>
+		</nav>
+		
+		<!-- Search & Theme menu - always visible -->
+		<div class="flex items-center gap-2" transition:persist="navbar">
+			<Search />
+			<ToggleTheme />
+		</div>
+		
+		<!-- Mobile menu button - only visible on small screens -->
+		<button id="mobile-menu-button" class="md:hidden flex items-center justify-center rounded-md p-1 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
+			<MenuIcon />
+			<span class="sr-only">Menu</span>
+		</button>
+	</div>
+	
+	<!-- Mobile navigation drawer -->
+	<div id="mobile-menu" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 transform translate-x-full transition-transform duration-300 ease-in-out md:hidden">
+		<div class="absolute right-0 top-0 h-full w-72 bg-white dark:bg-gray-900 shadow-xl transform transition-transform duration-300 ease-in-out">
+			<!-- Close button -->
+			<button id="close-menu-button" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
+				<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+				</svg>
+				<span class="sr-only">Close menu</span>
+			</button>
+			
+			<!-- Mobile menu items -->
+			<nav class="flex flex-col mt-16 px-6 space-y-1">
+				<!-- About link -->
+				<HeaderLink href="/about" class="flex items-center gap-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md px-3 py-2 transition-colors duration-200">
+					<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500 dark:text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<circle cx="12" cy="12" r="10"></circle>
+						<line x1="12" y1="8" x2="12" y2="12"></line>
+						<line x1="12" y1="16" x2="12.01" y2="16"></line>
+					</svg>
+					<span class="text-base">O nas</span>
+				</HeaderLink>
+				
+				<!-- Services submenu for mobile -->
+				<div class="py-2">
+					<button id="mobile-services-toggle" class="flex items-center justify-between w-full hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md px-3 py-2 transition-colors duration-200">
+						<div class="flex items-center gap-3">
+							<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500 dark:text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+							</svg>
+							<span class="text-base">Storitve</span>
+						</div>
+						<svg id="services-arrow" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transform transition-transform duration-200">
+							<polyline points="6 9 12 15 18 9"></polyline>
+						</svg>
+					</button>
+					<!-- Submenu items - hidden by default -->
+					<div id="mobile-services-submenu" class="hidden mt-1 ml-2 space-y-1 border-l-2 border-gray-200 dark:border-gray-700 pl-4">
+						<HeaderLink href="/web-design" class="flex items-center gap-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md px-3 py-2 my-1 transition-colors duration-200">
+							<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500 dark:text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+								<line x1="8" y1="21" x2="16" y2="21"></line>
+								<line x1="12" y1="17" x2="12" y2="21"></line>
+							</svg>
+							<span class="text-base">Spletno Oblikovanje</span>
+						</HeaderLink>
+						<HeaderLink href="/graphic-design" class="flex items-center gap-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md px-3 py-2 my-1 transition-colors duration-200">
+							<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500 dark:text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+								<path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+								<path d="M2 2l7.586 7.586"></path>
+								<circle cx="11" cy="11" r="2"></circle>
+							</svg>
+							<span class="text-base">Grafično Oblikovanje</span>
+						</HeaderLink>
+						<HeaderLink href="/seo" class="flex items-center gap-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md px-3 py-2 my-1 transition-colors duration-200">
+							<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500 dark:text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<circle cx="11" cy="11" r="8"></circle>
+								<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+								<line x1="8" y1="11" x2="14" y2="11"></line>
+							</svg>
+							<span class="text-base">SEO Optimizacija</span>
+						</HeaderLink>
+					</div>
+				</div>
+				
+				<!-- Blog link -->
+				<HeaderLink href="/blog" class="flex items-center gap-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md px-3 py-2 transition-colors duration-200">
+					<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500 dark:text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z" />
+					</svg>
+					<span class="text-base">Blog</span>
+				</HeaderLink>
+				
+				<!-- Contact link -->
+				<HeaderLink href="/contact" class="flex items-center gap-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md px-3 py-2 transition-colors duration-200">
+					<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500 dark:text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
+					</svg>
+					<span class="text-base">Kontakt</span>
+				</HeaderLink>
+				
+				<HeaderLink href="/tags" class="flex items-center gap-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md px-3 py-2 transition-colors duration-200">
+					<TagIcon class="text-gray-500 dark:text-gray-400 w-5 h-5" /> 
+					<span class="text-base">Oznake</span>
+				</HeaderLink>
+			</nav>
+		</div>
+	</div>
+</header>
+
+<script>
+	document.addEventListener('astro:page-load', () => {
+		const mobileMenu = document.getElementById('mobile-menu');
+		const mobileMenuButton = document.getElementById('mobile-menu-button');
+		const closeMenuButton = document.getElementById('close-menu-button');
+		
+		// Toggle mobile menu
+		mobileMenuButton?.addEventListener('click', () => {
+			mobileMenu?.classList.toggle('translate-x-full');
+			document.body.classList.toggle('overflow-hidden');
+		});
+		
+		// Close mobile menu
+		closeMenuButton?.addEventListener('click', () => {
+			mobileMenu?.classList.add('translate-x-full');
+			document.body.classList.remove('overflow-hidden');
+		});
+		
+		// Close menu when clicking outside
+		mobileMenu?.addEventListener('click', (event) => {
+			if (event.target === mobileMenu) {
+				mobileMenu.classList.add('translate-x-full');
+				document.body.classList.remove('overflow-hidden');
+			}
+		});
+		
+		// Toggle Services submenu in mobile view
+		const mobileServicesToggle = document.getElementById('mobile-services-toggle');
+		const mobileServicesSubmenu = document.getElementById('mobile-services-submenu');
+		const servicesArrow = document.getElementById('services-arrow');
+		
+		mobileServicesToggle?.addEventListener('click', () => {
+			mobileServicesSubmenu?.classList.toggle('hidden');
+			servicesArrow?.classList.toggle('rotate-180');
+		});
+		
+		// Toggle Services submenu in desktop view
+		const desktopServicesToggle = document.getElementById('desktop-services-toggle');
+		const desktopServicesSubmenu = document.getElementById('desktop-services-submenu');
+		const desktopServicesArrow = document.getElementById('desktop-services-arrow');
+		
+		desktopServicesToggle?.addEventListener('click', (e) => {
+			e.stopPropagation();
+			
+			const isOpen = !desktopServicesSubmenu?.classList.contains('hidden');
+			
+			// Close all other dropdowns first (if you have multiple)
+			document.querySelectorAll('[id$="-submenu"]').forEach(submenu => {
+				if (submenu.id !== 'desktop-services-submenu' && submenu.id !== 'mobile-services-submenu') {
+					submenu.classList.add('hidden');
+				}
+			});
+			
+			// Toggle this dropdown
+			desktopServicesSubmenu?.classList.toggle('hidden');
+			
+			// Apply rotation based on whether we're opening or closing
+			if (isOpen) {
+				desktopServicesArrow?.classList.remove('rotate-180');
+				desktopServicesToggle.setAttribute('aria-expanded', 'false');
+			} else {
+				desktopServicesArrow?.classList.add('rotate-180');
+				desktopServicesToggle.setAttribute('aria-expanded', 'true');
+			}
+		});
+		
+		// Close desktop dropdown when clicking outside
+		document.addEventListener('click', (event) => {
+			if (!desktopServicesToggle?.contains(event.target as Node) && 
+				!desktopServicesSubmenu?.contains(event.target as Node)) {
+				desktopServicesSubmenu?.classList.add('hidden');
+				desktopServicesArrow?.classList.remove('rotate-180');
+				desktopServicesToggle?.setAttribute('aria-expanded', 'false');
+			}
+		});
+		
+		// Set initial ARIA state
+		desktopServicesToggle?.setAttribute('aria-expanded', 'false');
+		desktopServicesToggle?.setAttribute('aria-haspopup', 'true');
+	});
+</script>
+
+<style>
+	.nav-links {
+		width: 100%;
+		top: 5rem;
+		left: 48px;
+		display: none;
+		margin: 0;
+	}
+
+	.nav-links.expanded {
+		display: unset;
+	}
+
+	@media screen and (min-width: 636px) {
+		.nav-links {
+			display: unset;
+			width: auto;
+			position: static;
+			padding: 0;
+		}
+	}
+</style>

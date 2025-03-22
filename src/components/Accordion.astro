@@ -1,0 +1,256 @@
+---
+interface Props {
+  items: {
+    question: string;
+    answer: string;
+  }[];
+  title?: string;
+}
+
+const { items, title } = Astro.props;
+---
+
+<div class="accordion-container">
+  {title && <h2 class="accordion-title">{title}</h2>}
+  <div class="accordion">
+    {
+      items.map((item, index) => (
+        <div class="accordion-item">
+          <h3>
+            <button
+              id={`accordion-header-${index}`}
+              aria-expanded="false"
+              aria-controls={`accordion-panel-${index}`}
+              class="accordion-header"
+            >
+              <span class="accordion-question">{item.question}</span>
+              <svg
+                class="accordion-icon"
+                aria-hidden="true"
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M16.5 8.25L12.4142 12.3358C11.7475 13.0025 11.4142 13.3358 11 13.3358C10.5858 13.3358 10.2525 13.0025 9.58579 12.3358L5.5 8.25"
+                />
+              </svg>
+            </button>
+          </h3>
+          <div
+            id={`accordion-panel-${index}`}
+            role="region"
+            aria-labelledby={`accordion-header-${index}`}
+            class="accordion-panel"
+            hidden
+          >
+            <div class="accordion-content">
+              <Fragment set:html={item.answer} />
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .accordion-container {
+    margin: 0.75rem 0;
+    width: 100%;
+    max-width: 48rem;
+  }
+
+  .accordion-title {
+    margin-bottom: 0.75rem;
+    font-size: clamp(1.5rem, 5vw, 2.25rem);
+    font-weight: 700;
+  }
+
+  .accordion {
+    width: 100%;
+  }
+
+  .accordion-item {
+    border-bottom: 1px solid var(--border-color, #e5e7eb);
+    padding: 0.75rem 0;
+  }
+
+  .accordion-item:last-child {
+    border-bottom: none;
+  }
+
+  .accordion-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0;
+    background-color: transparent;
+    color: var(--text-color, #4b5563);
+    text-align: left;
+    font-weight: 500;
+    font-size: 1.25rem;
+    line-height: 0.75rem;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+
+  .accordion-question {
+    flex: 1;
+    padding-right: 1rem;
+  }
+
+  .accordion-header:hover {
+    color: var(--accent-color, #4f46e5);
+  }
+
+  .accordion-header[aria-expanded="true"] {
+    color: var(--accent-color, #4f46e5);
+    font-weight: 600;
+  }
+
+  .accordion-icon {
+    flex-shrink: 0;
+    transition: transform 0.3s;
+    width: 22px;
+    height: 22px;
+    color: #111827;
+  }
+
+  .accordion-header:hover .accordion-icon {
+    color: var(--accent-color, #4f46e5);
+  }
+
+  .accordion-header[aria-expanded="true"] .accordion-icon {
+    transform: rotate(180deg);
+    color: var(--accent-color, #4f46e5);
+  }
+
+  .accordion-panel {
+    overflow: hidden;
+    height: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: height 0.3s ease-out, opacity 0.2s ease-out, visibility 0s 0.3s;
+  }
+
+  .accordion-panel:not([hidden]) {
+    height: auto;
+    opacity: 1;
+    visibility: visible;
+    transition: height 0.4s ease-in, opacity 0.3s ease-in;
+  }
+
+  .accordion-content {
+    padding: 1rem 0 0 0;
+    padding-right: 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--content-color, #6b7280);
+  }
+
+  /* Mobile optimizations */
+  @media (max-width: 768px) {
+    .accordion-container {
+      margin: 1.5rem 0;
+    }
+    
+    .accordion-item {
+      padding: 1.5rem 0;
+    }
+    
+    .accordion-header {
+      font-size: 1.125rem;
+      line-height: 1.75rem;
+    }
+    
+    .accordion-content {
+      padding-right: 0.5rem;
+    }
+  }
+
+  /* Dark mode adjustments */
+  :global(.dark) .accordion-header {
+    color: #e5e7eb;
+  }
+
+  :global(.dark) .accordion-content {
+    color: #d1d5db;
+  }
+
+  :global(.dark) .accordion-icon {
+    color: #f3f4f6;
+  }
+
+  :global(.dark) .accordion-item {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+</style>
+
+<script>
+  // Initialize accordions when the DOM is loaded
+  document.addEventListener("DOMContentLoaded", initAccordions);
+  
+  // Also initialize when Astro view transitions are complete
+  document.addEventListener("astro:page-load", initAccordions);
+
+  function initAccordions() {
+    const accordionHeaders = document.querySelectorAll(".accordion-header");
+
+    accordionHeaders.forEach((header) => {
+      header.addEventListener("click", toggleAccordion);
+    });
+
+    // Initialize keyboard navigation
+    initKeyboardNav();
+  }
+
+  function toggleAccordion(this: HTMLElement) {
+    const expanded = this.getAttribute("aria-expanded") === "true";
+    this.setAttribute("aria-expanded", String(!expanded));
+    
+    const panelId = this.getAttribute("aria-controls");
+    const panel = document.getElementById(panelId || "");
+    
+    if (panel) {
+      panel.hidden = expanded;
+    }
+  }
+
+  function initKeyboardNav() {
+    const accordionHeaders = document.querySelectorAll(".accordion-header");
+    
+    accordionHeaders.forEach((header, index) => {
+      header.addEventListener("keydown", (e: Event) => {
+        const keyEvent = e as KeyboardEvent;
+        const headers = Array.from(accordionHeaders);
+        
+        switch (keyEvent.key) {
+          case "ArrowDown":
+            e.preventDefault();
+            (headers[(index + 1) % headers.length] as HTMLElement).focus();
+            break;
+          case "ArrowUp":
+            e.preventDefault();
+            (headers[(index - 1 + headers.length) % headers.length] as HTMLElement).focus();
+            break;
+          case "Home":
+            e.preventDefault();
+            (headers[0] as HTMLElement).focus();
+            break;
+          case "End":
+            e.preventDefault();
+            (headers[headers.length - 1] as HTMLElement).focus();
+            break;
+        }
+      });
+    });
+  }
+</script> 

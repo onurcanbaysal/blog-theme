@@ -1,0 +1,205 @@
+---
+interface Props {
+	title?: string;
+	theme?: 'brown' | 'teal';
+}
+
+const { title, theme = 'brown' } = Astro.props;
+
+// Precompute theme colors to prevent FOUC
+const themeColors = {
+	brown: {
+		bg: '#8B4513',
+		border: '#A0522D'
+	},
+	teal: {
+		bg: '#006666',
+		border: '#008080'
+	},
+	red: {
+		bg: '#8B0000',
+		border: '#800000'
+	},
+	pink: {
+		bg: '#DB7093',
+		border: '#C71585'
+	},
+	purple: {
+		bg: '#800080',
+		border: '#800080'
+	}
+};
+
+const currentTheme = themeColors[theme];
+---
+
+<article 
+	class={`wish-card ${theme}`}
+	style={`--card-bg: ${currentTheme.bg}; --card-border: ${currentTheme.border};`}
+>
+	{title && <h3 class="title">{title}</h3>}
+	<div class="content-wrapper">
+		<div class="content">
+			<slot />
+		</div>
+	</div>
+	<button 
+		class="copy-btn" 
+		aria-label="Copy text" 
+		title="Copy to clipboard"
+		type="button"
+	>
+		<svg 
+			aria-hidden="true"
+			xmlns="http://www.w3.org/2000/svg" 
+			width="20" 
+			height="20" 
+			viewBox="0 0 24 24" 
+			fill="none" 
+			stroke="currentColor" 
+			stroke-width="2" 
+			stroke-linecap="round" 
+			stroke-linejoin="round"
+		>
+			<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+			<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+		</svg>
+	</button>
+</article>
+
+<style>
+	.wish-card {
+		position: relative;
+		padding: clamp(1.5rem, 4vw, 2rem);
+		border-radius: 0.5rem;
+		margin: 0;
+		color: white;
+		text-align: center;
+		font-style: italic;
+		line-height: 1.6;
+		background-color: var(--card-bg);
+		border: 2px solid var(--card-border);
+		box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+		transition: transform 0.2s ease, box-shadow 0.2s ease;
+		contain: content;
+		height: 100%;
+		min-height: 200px;
+		display: flex;
+		flex-direction: column;
+		font-weight: 500;
+	}
+
+	.title {
+		font-size: clamp(1.25rem, 3vw, 1.5rem);
+		margin: 0 0 1rem 0;
+		font-weight: 600;
+		line-height: 1.2;
+	}
+
+	.content-wrapper {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 0;
+	}
+
+	.content {
+		font-size: clamp(1rem, 2vw, 1.1rem);
+		white-space: pre-line;
+		margin: 0;
+		font-weight: 500;
+		text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+		padding: 0.5rem;
+	}
+
+	.copy-btn {
+		position: absolute;
+		top: 0.75rem;
+		right: 0.75rem;
+		background: rgba(255, 255, 255, 0.1);
+		border: none;
+		border-radius: 0.25rem;
+		padding: 0.5rem;
+		cursor: pointer;
+		color: white;
+		transition: all 0.2s ease;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		touch-action: manipulation;
+		-webkit-tap-highlight-color: transparent;
+		transform-origin: center;
+	}
+
+	.copy-btn:hover {
+		background: rgba(255, 255, 255, 0.2);
+		transform: scale(1.1);
+	}
+
+	.copy-btn:active {
+		transform: scale(0.95);
+	}
+
+	.copy-btn.copied {
+		background: rgba(34, 197, 94, 0.2);
+		animation: copySuccess 0.6s ease forwards;
+	}
+
+	@keyframes copySuccess {
+		0% {
+			transform: scale(1);
+		}
+		50% {
+			transform: scale(1.2);
+		}
+		100% {
+			transform: scale(1);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.wish-card {
+			transition: none;
+		}
+		.copy-btn {
+			transition: none;
+			animation: none;
+		}
+		.copy-btn:hover,
+		.copy-btn:active,
+		.copy-btn.copied {
+			transform: none;
+		}
+	}
+</style>
+
+<script>
+	const setupCopyButton = (card: Element) => {
+		const copyBtn = card.querySelector('.copy-btn');
+		const content = card.querySelector('.content');
+
+		if (!copyBtn || !content) return;
+
+		const copyText = async () => {
+			try {
+				const text = content.textContent?.trim() || '';
+				await navigator.clipboard.writeText(text);
+				copyBtn.classList.add('copied');
+				setTimeout(() => copyBtn.classList.remove('copied'), 2000);
+			} catch (err) {
+				console.error('Failed to copy text:', err);
+			}
+		};
+
+		copyBtn.addEventListener('click', copyText, { passive: true });
+	};
+
+	// Setup on initial load
+	document.querySelectorAll('.wish-card').forEach(setupCopyButton);
+
+	// Setup on dynamic content changes
+	document.addEventListener('astro:page-load', () => {
+		document.querySelectorAll('.wish-card').forEach(setupCopyButton);
+	});
+</script> 

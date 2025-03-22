@@ -1,0 +1,23 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import TitlePage from '@/components/TitlePage.astro'
+import { getTags } from '@/utils'
+import { sluglify } from '@/utils'
+const tags = await getTags()
+---
+
+<BaseLayout title='Oznake'>
+	<TitlePage title='Oznake' />
+	<div class='flex justify-center flex-wrap gap-4'>
+		{
+			tags.map((tag) => (
+				<a
+					href={`/tags/${sluglify(tag as string)}`}
+					class='inline-block bg-gray-200  rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2'
+				>
+					#{tag}
+				</a>
+			))
+		}
+	</div>
+</BaseLayout>

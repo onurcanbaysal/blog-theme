@@ -1,0 +1,51 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import ListPosts from '@/components/ListPosts.astro'
+import ListCategories from '@/components/ListCategories.astro'
+import TitlePage from '@/components/TitlePage.astro'
+import { sluglify, unsluglify, toAscii, getCategories, getPosts } from '@/utils'
+import { siteConfig } from '@/data/site.config'
+import Pagination from '@/components/Pagination.astro'
+import { getCategoryDescription } from '@/data/categoryDescriptions'
+
+export async function getStaticPaths({ paginate }: any) {
+	const categories = await getCategories()
+	const allPosts = await getPosts()
+
+	return categories.flatMap((category: string) => {
+		const categoryAscii = toAscii(category)
+		const filteredPosts = allPosts.filter(
+			(post) => post.data.category.some(cat => toAscii(cat) === categoryAscii)
+		)
+
+		return paginate(filteredPosts, {
+			params: {
+				category: sluglify(category)
+			},
+			pageSize: siteConfig.paginationSize
+		})
+	})
+}
+
+const params = Astro.params
+const { page } = Astro.props
+
+const unsluglifyNameCategory = unsluglify(params.category!.toLowerCase())
+const categoryName = (await getCategories()).find(
+	(category) => toAscii(category) === toAscii(unsluglifyNameCategory)
+) || 'Unknown Category'
+const categoryDescription = getCategoryDescription(unsluglifyNameCategory)
+const posts = page.data
+---
+
+<BaseLayout title={categoryName}>
+	<TitlePage title={categoryName} />
+	<div class="mb-8">
+		<p class="text-gray-600 dark:text-gray-300 text-lg">
+			{categoryDescription}
+		</p>
+	</div>
+	<ListCategories activeCategory={params.category} />
+	<ListPosts posts={posts} />
+	<Pagination page={page} />
+</BaseLayout>

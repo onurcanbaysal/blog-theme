@@ -1,0 +1,191 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import TitlePage from '@/components/TitlePage.astro'
+import { Schema } from 'astro-seo-schema'
+import { siteConfig } from '@/site-config'
+
+const title = 'Kontakt'
+const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+const canonicalURLString = canonicalURL.toString()
+---
+
+<BaseLayout title={title}>
+	<Schema
+		item={{
+			"@context": "https://schema.org",
+			"@type": "ContactPage",
+			"name": title,
+			"description": siteConfig.description,
+			"url": canonicalURLString,
+			"mainEntityOfPage": {
+				"@type": "WebPage",
+				"@id": canonicalURLString
+			},
+			"author": {
+				"@type": "Person",
+				"name": siteConfig.author
+			},
+			"inLanguage": siteConfig.lang,
+		}}
+	/>
+	<TitlePage title={title} />
+	
+	<div class="max-w-4xl mx-auto px-4 py-12">
+		<div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
+			<div class="grid grid-cols-1 md:grid-cols-2">
+				<!-- Contact Information -->
+				<div class="bg-primary-600 p-8 md:p-12">
+					<h3 class="text-2xl font-bold text-white mb-8">Stopite v stik z nami</h3>
+					
+					<div class="space-y-8">
+						<p class="text-primary-100 leading-relaxed">
+							Imate vprašanje ali predlog? Z veseljem vam bomo pomagali. Izpolnite obrazec ali pa nas kontaktirajte preko spodnjih podatkov.
+						</p>
+
+						<div class="space-y-6">
+							<div class="flex items-start space-x-4">
+								<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-200 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+								</svg>
+								<div>
+									<h4 class="text-primary-100 font-medium">E-pošta</h4>
+									<a href="mailto:info@BlogWebsite.si" class="text-primary-900 hover:text-primary-800 dark:text-white dark:hover:text-primary-200 transition-colors">
+										info@BlogWebsite.si
+									</a>
+								</div>
+							</div>
+
+							<div class="flex items-start space-x-4">
+								<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-200 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
+								</svg>
+								<div>
+									<h4 class="text-primary-100 font-medium">Facebook</h4>
+									<a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" class="text-primary-900 hover:text-primary-800 dark:text-white dark:hover:text-primary-200 transition-colors">
+										BlogWebsite.si
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Contact Form -->
+				<div class="p-8 md:p-12">
+					<form method="POST" id="form" class="space-y-6">
+						<input type="hidden" name="access_key" value="ACCESS_KEY_HERE">
+
+						<div class="space-y-2">
+							<label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+								Ime in priimek
+							</label>
+							<input
+								type="text"
+								name="name"
+								id="name"
+								required
+								oninvalid="this.setCustomValidity('Prosimo, izpolnite to polje')"
+								oninput="this.setCustomValidity('')"
+								class="block w-full px-4 py-3 rounded-lg border-gray-200 focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+								placeholder="Vaše ime"
+							>
+						</div>
+
+						<div class="space-y-2">
+							<label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+								E-poštni naslov
+							</label>
+							<input
+								type="email"
+								name="email"
+								id="email"
+								required
+								oninvalid="this.setCustomValidity('Prosimo, vnesite veljaven e-poštni naslov')"
+								oninput="this.setCustomValidity('')"
+								class="block w-full px-4 py-3 rounded-lg border-gray-200 focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+								placeholder="vas@email.com"
+							>
+						</div>
+
+						<div class="space-y-2">
+							<label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+								Sporočilo
+							</label>
+							<textarea
+								name="message"
+								id="message"
+								required
+								oninvalid="this.setCustomValidity('Prosimo, vnesite vaše sporočilo')"
+								oninput="this.setCustomValidity('')"
+								rows="4"
+								class="block w-full px-4 py-3 rounded-lg border-gray-200 focus:border-primary-500 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+								placeholder="Vaše sporočilo..."
+							></textarea>
+						</div>
+
+						<div>
+							<button
+								type="submit"
+								class="w-full inline-flex justify-center items-center px-6 py-3 border border-gray-600 dark:border-gray-600 rounded-lg text-base font-medium text-black dark:text-white bg-primary-600/10 dark:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors"
+							>
+								<span>Pošlji sporočilo</span>
+								<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+								</svg>
+							</button>
+						</div>
+
+						<div id="result" class="mt-4 text-sm text-center"></div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</BaseLayout>
+
+<script is:inline>
+const form = document.getElementById('form');
+const result = document.getElementById('result');
+
+form.addEventListener('submit', function(e) {
+    const formData = new FormData(form);
+    e.preventDefault();
+
+    const object = Object.fromEntries(formData);
+    const json = JSON.stringify(object);
+
+    result.innerHTML = "Prosimo počakajte..."
+    result.className = "mt-4 text-sm text-gray-600 dark:text-gray-400";
+
+    fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: json
+        })
+        .then(async (response) => {
+            let json = await response.json();
+            if (response.status == 200) {
+                result.innerHTML = "Sporočilo je bilo uspešno poslano!";
+                result.className = "mt-4 text-sm text-green-600 dark:text-green-400";
+            } else {
+                console.log(response);
+                result.innerHTML = "Prišlo je do napake. Prosimo, poskusite ponovno.";
+                result.className = "mt-4 text-sm text-red-600 dark:text-red-400";
+            }
+        })
+        .catch(error => {
+            console.log(error);
+            result.innerHTML = "Prišlo je do napake. Prosimo, poskusite ponovno.";
+            result.className = "mt-4 text-sm text-red-600 dark:text-red-400";
+        })
+        .then(function() {
+            form.reset();
+            setTimeout(() => {
+                result.style.display = "none";
+            }, 3000);
+        });
+});
+</script> 

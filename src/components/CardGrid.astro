@@ -1,0 +1,80 @@
+---
+interface Props {
+    columns?: 1 | 2 | 3 | 4;
+    gap?: 'small' | 'medium' | 'large';
+    layout?: 'masonry' | 'grid';
+}
+
+const { 
+    columns = 2, 
+    gap = 'medium',
+    layout = 'grid'
+} = Astro.props;
+
+const gapSizes = {
+    small: 'clamp(0.5rem, 2vw, 1rem)',
+    medium: 'clamp(1rem, 3vw, 1.5rem)',
+    large: 'clamp(1.5rem, 4vw, 2rem)'
+};
+
+const gapSize = gapSizes[gap];
+---
+
+<div class={`card-grid layout-${layout} cols-${columns}`}>
+    <slot />
+</div>
+
+<style define:vars={{ gapSize }}>
+    .card-grid {
+        display: grid;
+        gap: var(--gapSize);
+        margin: clamp(1rem, 4vw, 2rem) 0;
+        width: 100%;
+        contain: content; /* Improve performance */
+        content-visibility: auto; /* Improve initial page load */
+        contain-intrinsic-size: 0 500px; /* Prevent CLS */
+    }
+
+    /* Base styles - always single column on mobile first */
+    .card-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    /* Responsive grid columns with minimum card widths to prevent squishing */
+    @media (min-width: 640px) {
+        .cols-2 {
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+        }
+    }
+
+    @media (min-width: 768px) {
+        .cols-3 {
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+        }
+        .cols-4 {
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+        }
+    }
+
+    /* Masonry layout optimization */
+    .layout-masonry {
+        grid-auto-flow: dense;
+        grid-auto-rows: minmax(min-content, max-content);
+    }
+
+    /* Prevent layout shifts by maintaining aspect ratio */
+    @supports (aspect-ratio: 1) {
+        .layout-masonry > :global(*) {
+            aspect-ratio: 1 / 1.2;
+            height: auto !important;
+        }
+    }
+
+    /* Fallback for browsers that don't support aspect-ratio */
+    @supports not (aspect-ratio: 1) {
+        .layout-masonry > :global(*) {
+            height: 100%;
+            min-height: 200px;
+        }
+    }
+</style> 

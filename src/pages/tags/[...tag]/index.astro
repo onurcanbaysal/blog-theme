@@ -1,0 +1,24 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import ListPosts from '@/components/ListPosts.astro'
+import TitlePage from '@/components/TitlePage.astro'
+import { getTags, getPostByTag } from '@/utils'
+import { sluglify, toAscii } from '@/utils'
+
+export async function getStaticPaths() {
+	const tags = await getTags()
+
+	return tags.map((tag) => ({
+		params: { tag: sluglify(tag as string) },
+		props: { tag }
+	}))
+}
+
+const { tag } = Astro.props as { tag: string }
+const posts = await getPostByTag(tag)
+---
+
+<BaseLayout title={`Oznaka: ${tag}`}>
+	<TitlePage title={`Oznaka: #${tag}`} />
+	<ListPosts posts={posts} />
+</BaseLayout>

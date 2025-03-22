@@ -1,0 +1,133 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import TitlePage from '@/components/TitlePage.astro'
+import { CATEGORIES } from '@/data/categories'
+import { getCategoryDescription } from '@/data/categoryDescriptions'
+import { sluglify } from '@/utils'
+import { Schema } from 'astro-seo-schema'
+import { siteConfig } from '@/site-config'
+import { getCollection } from 'astro:content'
+import { toAscii } from '@/utils'
+const title = 'Vse kategorije'
+const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+const canonicalURLString = canonicalURL.toString()
+
+// Get post counts for each category
+const allPosts = await getCollection('blog');
+const categoryCounts = CATEGORIES.reduce((acc, category) => {
+	const categoryAscii = toAscii(category);
+	const count = allPosts.filter(post => 
+		post.data.category.some(cat => toAscii(cat) === categoryAscii)
+	).length;
+	acc[category] = count;
+	return acc;
+}, {} as Record<string, number>);
+
+// Category icons mapping
+const categoryIcons: Record<string, string> = {
+	'Naravna': 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z', // Envelope with heart
+}
+
+// Category colors
+const categoryColors: Record<string, string> = {
+	'Naravna': 'bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300',
+}
+---
+
+<BaseLayout title={title}>
+	<Schema
+		item={{
+			"@context": "https://schema.org",
+			"@type": "CollectionPage",
+			"name": title,
+			"description": "Pregled vseh kategorij na spletnem mestu BlogWebsite.si",
+			"url": canonicalURLString,
+			"mainEntityOfPage": {
+				"@type": "WebPage",
+				"@id": canonicalURLString
+			},
+			"author": {
+				"@type": "Person",
+				"name": siteConfig.author
+			},
+			"inLanguage": siteConfig.lang,
+		}}
+	/>
+	
+	<div class="relative">
+		<div class="absolute inset-0 bg-gradient-to-b from-primary-100/50 to-transparent dark:from-primary-900/20 h-32 -z-10"></div>
+		<TitlePage title={title} />
+	</div>
+	
+	<div class="max-w-4xl mx-auto mb-12 px-4">
+		<p class="text-gray-600 dark:text-gray-400 text-lg mb-10 text-center">
+			Raziskujte naše vsebine po kategorijah. Vsaka kategorija ponuja specializirane članke, nasvete in informacije za različne priložnosti in interese.
+		</p>
+		<div class="grid gap-6 sm:grid-cols-2">
+			{CATEGORIES.map((category) => {
+				const postCount = categoryCounts[category] || 0;
+				const icon = categoryIcons[category] || 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z';
+				const colorClass = categoryColors[category] || 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300';
+				
+				return (
+					<div class="group">
+						<a href={`/category/${sluglify(category)}/1`} class="block">
+							<div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition-all duration-300 group-hover:shadow-lg group-hover:-translate-y-1 group-hover:shadow-primary-200/50 dark:group-hover:shadow-primary-900/20 h-full border border-gray-100 dark:border-gray-700">
+								<div class="p-6">
+									<div class="flex justify-between items-start mb-4">
+										<div class={`rounded-lg p-3 ${colorClass}`}>
+											<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+												<path stroke-linecap="round" stroke-linejoin="round" d={icon} />
+											</svg>
+										</div>
+										<span class="text-sm bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-full px-3 py-1">
+											{postCount} {postCount === 1 ? 'članek' : postCount < 5 ? 'članki' : 'člankov'}
+										</span>
+									</div>
+									
+									<h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-3 group-hover:text-primary-600 dark:group-hover:text-primary-400">
+										{category}
+									</h2>
+									
+									<p class="text-gray-600 dark:text-gray-300 mb-5 line-clamp-3">
+										{getCategoryDescription(category)}
+									</p>
+									
+									<div class="mt-auto pt-4">
+										<div class="bg-primary-50 dark:bg-primary-900/20 hover:bg-primary-100 dark:hover:bg-primary-800/30 rounded-lg transition-colors py-2.5 px-4 inline-flex items-center justify-between w-full">
+											<span class="font-medium text-primary-700 dark:text-primary-300">Prebrskaj kategorijo</span>
+											<div class="bg-white dark:bg-gray-800 rounded-full p-1.5 shadow-sm group-hover:translate-x-1 transition-transform">
+												<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary-600 dark:text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+												</svg>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</a>
+					</div>
+				)
+			})}
+		</div>
+	</div>
+</BaseLayout>
+
+<script>
+	import { animate } from 'motion'
+	const showAnimations = localStorage.getItem('animations') === 'true'
+
+	if (showAnimations) {
+		animate(
+			'.grid > div',
+			{ 
+				y: [50, 0],
+				opacity: [0, 1]
+			},
+			{
+				duration: 0.3,
+				easing: 'ease-out'
+			}
+		)
+	}
+</script> 

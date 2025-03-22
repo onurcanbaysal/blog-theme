@@ -1,0 +1,2 @@
+// ADD YOUR SOCIAL NETWORKS HERE
+export const SOCIALNETWORKS = [] as const

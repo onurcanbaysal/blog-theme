@@ -1,0 +1,91 @@
+---
+interface Props {
+	title?: string;
+}
+
+const { title = "INFORMACIJA" } = Astro.props;
+---
+
+<div class="info-banner">
+	<div class="info-content">
+		<div class="info-icon">
+			<svg 
+				aria-hidden="true"
+				xmlns="http://www.w3.org/2000/svg" 
+				width="24" 
+				height="24" 
+				viewBox="0 0 24 24" 
+				fill="none" 
+				stroke="currentColor" 
+				stroke-width="2" 
+				stroke-linecap="round" 
+				stroke-linejoin="round"
+			>
+				<circle cx="12" cy="12" r="10"></circle>
+				<path d="M12 16v-4"></path>
+				<path d="M12 8h.01"></path>
+			</svg>
+		</div>
+		<div class="info-text">
+			{title && <h4 class="title">{title}</h4>}
+			<div class="content">
+				<slot />
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	.info-banner {
+		background-color: rgba(13, 110, 253, 0.1);
+		border-left: 4px solid #0d6efd;
+		padding: 0.75rem 1rem;
+		margin: 1.5rem 0;
+		color: inherit;
+		font-weight: normal;
+	}
+
+	.info-content {
+		display: flex;
+		align-items: flex-start;
+		gap: 1rem;
+	}
+
+	.info-icon {
+		flex-shrink: 0;
+		margin-top: 0.25rem;
+	}
+
+	.info-icon svg {
+		width: 24px;
+		height: 24px;
+		color: #0d6efd;
+	}
+
+	.info-text {
+		flex-grow: 1;
+	}
+
+	.title {
+		font-size: 1.1rem;
+		margin: 0 0 0.5rem 0;
+		font-weight: 600;
+		color: #0d6efd;
+	}
+
+	.content {
+		font-size: 1rem;
+		line-height: 1.5;
+	}
+
+	/* For dark mode compatibility */
+	:global(.dark) .info-banner {
+		background-color: rgba(13, 110, 253, 0.15);
+		border-left-color: #4d8df6;
+	}
+
+	:global(.dark) .info-icon svg,
+	:global(.dark) .title {
+		color: #4d8df6;
+	}
+</style> 
