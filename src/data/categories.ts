@@ -5,4 +5,14 @@ export const CATEGORIES = [
 	'Zabava',
 	'Zdravje',
 	'Ekonomija',
+	'Politika',
+	'Tehnologija',
+	'Šport',
+	'Kultura',
+	'Izobraževanje',
+	'Znanost',
+	'Turizem',
+	'Okolje',
+	'Finance',
+	'Moda'
 ] as const
