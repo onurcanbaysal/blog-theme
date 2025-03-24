@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://BlogWebsite.si/sitemap-index.xml
+Sitemap: https://simail.si/sitemap-index.xml

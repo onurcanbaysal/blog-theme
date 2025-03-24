@@ -10,9 +10,9 @@ interface SiteConfig {
 }
 
 export const siteConfig: SiteConfig = {
-	site: 'https://BlogWebsite.si/', // Write here your website url
-	author: 'BlogWebsite', // Site author
-	title: 'BlogWebsite', // Site title.
+	site: 'https://simail.si/', // Write here your website url
+	author: 'simail', // Site author
+	title: 'simail', // Site title.
 	description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.', // Description to display in the meta tags
 	lang: 'sl-SI',
 	ogLocale: 'sl_SI',
