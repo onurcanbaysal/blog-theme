@@ -1,3 +1,11 @@
-<h1 class='text-3xl sm:text-4xl md:text-5xl font-bold first-letter:uppercase'>
+---
+interface Props {
+	class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<h1 class={`text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-gray-900 dark:text-white first-letter:uppercase ${className || ''}`}>
 	<slot />
 </h1>
