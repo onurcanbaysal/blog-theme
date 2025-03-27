@@ -3,6 +3,7 @@ import { getCategories, sluglify } from '@/utils'
 import Category from '@/components/Category.astro'
 import Search from '@/components/Search.astro'
 import ToggleTheme from '@/components/ToggleTheme.astro'
+import { Image } from 'astro:assets'
 import { siteConfig } from '@/site-config'
 import TagIcon from './icons/TagIcon.astro'
 
@@ -19,9 +20,16 @@ const params = Astro.params
         <!-- Logo -->
         <div class="flex items-center gap-2">
           <a href="/" class="flex items-center gap-2">
-            <span class="font-bold text-xl text-gray-900 dark:text-white">
-              {siteConfig.title}
-            </span>
+            <Image
+              src="/logo-simail.png"
+              alt={siteConfig.title}
+              format="webp"
+              quality={85}
+              loading="eager"
+              width={96}
+              height={32}
+              class="h-8 w-auto"
+            />
           </a>
         </div>
 
