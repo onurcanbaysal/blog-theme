@@ -23,14 +23,14 @@ const listPosts = posts.slice(1);
 <section class="px-5 py-8">
 	<div class="container mx-auto">
 		<div class="mb-8">
-			<h2 class="text-2xl font-medium tracking-wide text-gray-900 dark:text-white">
+			<h2 class="text-2xl font-medium tracking-wide text-gray-900 dark:text-white font-body">
 				{category || 'Zadnje Objave'}
 			</h2>
 			<div class="w-full h-[1px] bg-gray-700/20 dark:bg-white/20 mt-2"></div>
 		</div>
 		<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 			<!-- Featured Post -->
-			<article class="relative overflow-hidden rounded-[2px] bg-white dark:bg-zinc-800 shadow-sm hover:shadow-md transition-all duration-300">
+			<article class="relative overflow-hidden rounded-[2px] bg-white dark:bg-zinc-800 shadow-md hover:shadow-lg transition-all duration-300">
 				<a href={`/${sluglify(featuredPost.slug)}/`} class="group block">
 					<div class="relative aspect-[16/9] overflow-hidden">
 						<Image
@@ -45,27 +45,27 @@ const listPosts = posts.slice(1);
 						/>
 						<div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/80"></div>
 						<div class="absolute top-4 left-4 right-4 flex items-center justify-between">
-							<span class="px-3 py-1.5 text-xs font-bold tracking-wider uppercase bg-white/90 text-gray-900 dark:text-gray-900 dark:bg-white/90 backdrop-blur-sm rounded-full">
+							<span class="px-3 py-1.5 text-xs font-bold tracking-wider uppercase bg-white/90 text-gray-900 dark:text-gray-900 dark:bg-white/90 backdrop-blur-sm rounded-full font-body">
 								{featuredPost.data.category[0]}
 							</span>
 							<div class="flex flex-col items-center justify-center bg-white/90 backdrop-blur-sm rounded-full w-12 h-12">
-								<span class="text-lg font-semibold leading-none tracking-wide text-gray-900">
+								<span class="text-lg font-semibold leading-none tracking-wide text-gray-900 font-body">
 									{new Date(featuredPost.data.pubDate).getDate()}
 								</span>
-								<span class="text-xs leading-none uppercase text-gray-900">
+								<span class="text-xs leading-none uppercase text-gray-900 font-body">
 									{new Date(featuredPost.data.pubDate).toLocaleString('sl-SI', { month: 'short' })}
 								</span>
 							</div>
 						</div>
 					</div>
 					<div class="p-6">
-						<h2 class="font-serif text-3xl hover:underline text-gray-900 dark:text-white line-clamp-2">
+						<h2 class="font-body text-3xl hover:underline text-gray-900 dark:text-white line-clamp-2">
 							{featuredPost.data.title}
 						</h2>
-						<p class="mt-3 text-gray-600 dark:text-gray-300 line-clamp-2">
+						<p class="mt-3 text-gray-600 dark:text-gray-300 line-clamp-2 font-body">
 							{featuredPost.data.description}
 						</p>
-						<div class="mt-4 flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+						<div class="mt-4 flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 font-body">
 							<span>Preberi več</span>
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
 								<path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -84,19 +84,19 @@ const listPosts = posts.slice(1);
 							<article class="py-6 first:pt-0 last:pb-0">
 								<a href={`/${sluglify(post.slug)}/`} class="group block">
 									<div class="flex items-center gap-2 mb-2">
-										<span class="text-xs font-bold tracking-wider uppercase text-gray-700 dark:text-white/80">{category[0]}</span>
-										<span class="text-xs text-gray-700 dark:text-white/80">•</span>
-										<span class="text-xs text-gray-700 dark:text-white/80">
+										<span class="text-xs font-bold tracking-wider uppercase text-gray-700 dark:text-white/80 font-body">{category[0]}</span>
+										<span class="text-xs text-gray-700 dark:text-white/80 font-body">•</span>
+										<span class="text-xs text-gray-700 dark:text-white/80 font-body">
 											<FormattedDate date={pubDate} />
 										</span>
 									</div>
-									<h2 class="font-serif text-xl hover:underline text-gray-900 dark:text-white line-clamp-2">
+									<h2 class="font-body text-xl hover:underline text-gray-900 dark:text-white line-clamp-2">
 										{title}
 									</h2>
-									<p class="mt-2 text-sm text-gray-600 dark:text-gray-300 line-clamp-2">
+									<p class="mt-2 text-sm text-gray-600 dark:text-gray-300 line-clamp-2 font-body">
 										{description}
 									</p>
-									<div class="mt-4 flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+									<div class="mt-4 flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 font-body">
 										<span>Preberi več</span>
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
 											<path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>

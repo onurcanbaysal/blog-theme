@@ -35,13 +35,13 @@ const rightPosts = heroPosts.slice(4, 12) // Get 8 posts for the right column
 										<div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/40"></div>
 									</div>
 									<div class="flex items-center gap-2">
-										<span class="text-xs font-bold tracking-wider uppercase text-gray-700 dark:text-white/80">{category[0]}</span>
-										<span class="text-xs text-gray-700 dark:text-white/80">•</span>
-										<span class="text-xs text-gray-700 dark:text-white/80">
+										<span class="text-xs font-bold tracking-wider uppercase text-gray-700 dark:text-white/80 font-body">{category[0]}</span>
+										<span class="text-xs text-gray-700 dark:text-white/80 font-body">•</span>
+										<span class="text-xs text-gray-700 dark:text-white/80 font-body">
 											<FormattedDate date={pubDate} />
 										</span>
 									</div>
-									<h3 class="font-serif text-base hover:underline text-gray-900 dark:text-white">{title}</h3>
+									<h3 class="font-body text-base hover:underline text-gray-900 dark:text-white">{title}</h3>
 								</div>
 							</a>
 						)
@@ -53,7 +53,7 @@ const rightPosts = heroPosts.slice(4, 12) // Get 8 posts for the right column
 					<div class="w-1/2 h-full bg-gray-700/20 dark:bg-white/20"></div>
 				</div>
 				<a href="/blog" class="flex items-center justify-between w-full text-gray-700 hover:text-gray-900 dark:text-white/80 dark:hover:text-white">
-					<span class="text-xs font-bold tracking-wider uppercase">Več objav</span>
+					<span class="text-xs font-bold tracking-wider uppercase font-body">Več objav</span>
 					<svg viewBox="0 0 24 24" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" class="w-4 stroke-current">
 						<line x1="5" y1="12" x2="19" y2="12"></line>
 						<polyline points="12 5 19 12 12 19"></polyline>
@@ -78,13 +78,13 @@ const rightPosts = heroPosts.slice(4, 12) // Get 8 posts for the right column
 				<div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/80">
 					<div class="absolute bottom-0 left-0 right-0 p-6">
 						<div class="flex items-center gap-2 mb-2">
-							<span class="text-sm font-bold uppercase text-white/90">{mainPost.data.category[0]}</span>
-							<span class="text-sm text-white/80">•</span>
-							<span class="text-sm text-white/80">
+							<span class="text-sm font-bold uppercase text-white/90 font-body">{mainPost.data.category[0]}</span>
+							<span class="text-sm text-white/80 font-body">•</span>
+							<span class="text-sm text-white/80 font-body">
 								<FormattedDate date={mainPost.data.pubDate} />
 							</span>
 						</div>
-						<h2 class="text-2xl font-semibold !text-white group-hover:underline">
+						<h2 class="text-2xl font-semibold !text-white group-hover:underline font-body">
 							{mainPost.data.title}
 						</h2>
 					</div>
@@ -95,7 +95,7 @@ const rightPosts = heroPosts.slice(4, 12) // Get 8 posts for the right column
 		<!-- Right Column - Latest Posts -->
 		<div class="hidden py-2 xl:col-span-3 lg:col-span-4 md:hidden lg:block">
 			<div class="mb-6">
-				<h2 class="text-lg font-medium tracking-wide text-gray-900 dark:text-white">NAJBOLJ BRANO</h2>
+				<h2 class="text-lg font-medium tracking-wide text-gray-900 dark:text-white font-body">NAJBOLJ BRANO</h2>
 				<div class="w-full h-[1px] bg-gray-700/20 dark:bg-white/20 mt-2"></div>
 			</div>
 			<div class="flex flex-col space-y-4">
@@ -106,13 +106,13 @@ const rightPosts = heroPosts.slice(4, 12) // Get 8 posts for the right column
 							<a href={`/${sluglify(post.slug)}/`} class="group">
 								<div class="flex flex-col space-y-1">
 									<div class="flex items-center gap-2">
-										<span class="text-xs font-bold tracking-wider uppercase text-gray-700 dark:text-white/80">{category[0]}</span>
-										<span class="text-xs text-gray-700 dark:text-white/80">•</span>
-										<span class="text-xs text-gray-700 dark:text-white/80">
+										<span class="text-xs font-bold tracking-wider uppercase text-gray-700 dark:text-white/80 font-body">{category[0]}</span>
+										<span class="text-xs text-gray-700 dark:text-white/80 font-body">•</span>
+										<span class="text-xs text-gray-700 dark:text-white/80 font-body">
 											<FormattedDate date={pubDate} />
 										</span>
 									</div>
-									<h3 class="font-serif text-base hover:underline text-gray-900 dark:text-white">{title}</h3>
+									<h3 class="font-body text-base hover:underline text-gray-900 dark:text-white">{title}</h3>
 								</div>
 							</a>
 						)

@@ -23,14 +23,14 @@ const gridPosts = posts.slice(1);
 <section class="px-5 py-8">
 	<div class="container mx-auto">
 		<div class="mb-8">
-			<h2 class="text-2xl font-medium tracking-wide text-gray-900 dark:text-white">
+			<h2 class="text-2xl font-medium tracking-wide text-gray-900 dark:text-white font-body">
 				{category || 'Zadnje Objave'}
 			</h2>
 			<div class="w-full h-[1px] bg-gray-700/20 dark:bg-white/20 mt-2"></div>
 		</div>
 		<div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
 			<!-- Featured Post -->
-			<article class="relative overflow-hidden rounded-[2px] bg-white dark:bg-zinc-800 shadow-sm hover:shadow-md transition-all duration-300 md:col-span-2 lg:col-span-2">
+			<article class="relative overflow-hidden rounded-[2px] bg-white dark:bg-zinc-800 shadow-md hover:shadow-lg transition-all duration-300 md:col-span-2 lg:col-span-2">
 				<a href={`/${sluglify(featuredPost.slug)}/`} class="group block">
 					<div class="relative aspect-[16/9] overflow-hidden">
 						<Image
@@ -45,24 +45,24 @@ const gridPosts = posts.slice(1);
 						/>
 						<div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/80"></div>
 						<div class="absolute top-4 left-4 right-4 flex items-center justify-between">
-							<span class="px-3 py-1.5 text-xs font-bold tracking-wider uppercase bg-white/90 text-gray-900 dark:text-gray-900 dark:bg-white/90 backdrop-blur-sm rounded-full">
+							<span class="px-3 py-1.5 text-xs font-bold tracking-wider uppercase bg-white/90 text-gray-900 dark:text-gray-900 dark:bg-white/90 backdrop-blur-sm rounded-full font-body">
 								{featuredPost.data.category[0]}
 							</span>
 							<div class="flex flex-col items-center justify-center bg-white/90 backdrop-blur-sm rounded-full w-12 h-12">
-								<span class="text-lg font-semibold leading-none tracking-wide text-gray-900">
+								<span class="text-lg font-semibold leading-none tracking-wide text-gray-900 font-body">
 									{new Date(featuredPost.data.pubDate).getDate()}
 								</span>
-								<span class="text-xs leading-none uppercase text-gray-900">
+								<span class="text-xs leading-none uppercase text-gray-900 font-body">
 									{new Date(featuredPost.data.pubDate).toLocaleString('sl-SI', { month: 'short' })}
 								</span>
 							</div>
 						</div>
 					</div>
 					<div class="p-6">
-						<h2 class="font-serif text-2xl hover:underline text-gray-900 dark:text-white line-clamp-2">
+						<h2 class="font-body text-2xl hover:underline text-gray-900 dark:text-white line-clamp-2">
 							{featuredPost.data.title}
 						</h2>
-						<p class="mt-3 text-gray-600 dark:text-gray-300 line-clamp-2">
+						<p class="mt-3 text-gray-600 dark:text-gray-300 line-clamp-2 font-body">
 							{featuredPost.data.description}
 						</p>
 					</div>
@@ -74,7 +74,7 @@ const gridPosts = posts.slice(1);
 				gridPosts.map((post) => {
 					const { data: { title, pubDate, category, heroImage, description } } = post
 					return (
-						<article class="relative overflow-hidden rounded-[2px] bg-white dark:bg-zinc-800 shadow-sm hover:shadow-md transition-all duration-300">
+						<article class="relative overflow-hidden rounded-[2px] bg-white dark:bg-zinc-800 shadow-md hover:shadow-lg transition-all duration-300">
 							<a href={`/${sluglify(post.slug)}/`} class="group block">
 								<div class="relative aspect-[3/4] overflow-hidden">
 									<Image
@@ -89,24 +89,24 @@ const gridPosts = posts.slice(1);
 									/>
 									<div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/80"></div>
 									<div class="absolute top-4 left-4 right-4 flex items-center justify-between">
-										<span class="px-3 py-1.5 text-xs font-bold tracking-wider uppercase bg-white/90 text-gray-900 dark:text-gray-900 dark:bg-white/90 backdrop-blur-sm rounded-full">
+										<span class="px-3 py-1.5 text-xs font-bold tracking-wider uppercase bg-white/90 text-gray-900 dark:text-gray-900 dark:bg-white/90 backdrop-blur-sm rounded-full font-body">
 											{category[0]}
 										</span>
 										<div class="flex flex-col items-center justify-center bg-white/90 backdrop-blur-sm rounded-full w-12 h-12">
-											<span class="text-lg font-semibold leading-none tracking-wide text-gray-900">
+											<span class="text-lg font-semibold leading-none tracking-wide text-gray-900 font-body">
 												{new Date(pubDate).getDate()}
 											</span>
-											<span class="text-xs leading-none uppercase text-gray-900">
+											<span class="text-xs leading-none uppercase text-gray-900 font-body">
 												{new Date(pubDate).toLocaleString('sl-SI', { month: 'short' })}
 											</span>
 										</div>
 									</div>
 								</div>
 								<div class="p-4">
-									<h2 class="font-serif text-lg hover:underline text-gray-900 dark:text-white line-clamp-2">
+									<h2 class="font-body text-lg hover:underline text-gray-900 dark:text-white line-clamp-2">
 										{title}
 									</h2>
-									<p class="mt-2 text-sm text-gray-600 dark:text-gray-300 line-clamp-2">
+									<p class="mt-2 text-sm text-gray-600 dark:text-gray-300 line-clamp-2 font-body">
 										{description}
 									</p>
 								</div>
