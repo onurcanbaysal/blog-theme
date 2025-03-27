@@ -57,14 +57,14 @@ const formattedDate = new Date().toLocaleDateString('sl-SI', {
                 <Category name={category} activeCategory={params.category} />
               ))
             }
-            <div class="hidden sm:block absolute w-full bottom-0 border-b-2 -z-40 dark:border-gray-700"></div>
+            <div class="hidden sm:block absolute w-full bottom-0 border-b-2 -z-40 dark:border-gray-700" aria-hidden="true"></div>
           </div>
         </nav>
 
         <!-- Search and Theme Toggle -->
         <div class="flex items-center gap-3">
           <Search />
-          <a href="/tags" class="flex items-center justify-center w-10 h-10 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors">
+          <a href="/tags" class="flex items-center justify-center w-10 h-10 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors" aria-label="Pregled oznak">
             <TagIcon class="w-5 h-5" />
           </a>
           <ToggleTheme />
