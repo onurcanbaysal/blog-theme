@@ -11,10 +11,10 @@ const { activeCategory } = Astro.props
 const params = Astro.params
 ---
 
-<header class="lg:hidden">
+<header class="lg:hidden w-full">
   <!-- Top bar -->
-  <div class="bg-white dark:bg-[#0a0910] border-b border-gray-200 dark:border-gray-800">
-    <div class="px-5">
+  <div class="bg-white dark:bg-[#0a0910] border-b border-gray-200 dark:border-gray-800 w-full">
+    <div class="w-full px-5">
       <div class="flex items-center justify-between h-16">
         <!-- Logo -->
         <div class="flex items-center gap-2">
@@ -43,8 +43,8 @@ const params = Astro.params
   </div>
 
   <!-- Mobile Menu -->
-  <div id="mobile-menu" class="hidden bg-white dark:bg-[#0a0910] border-b border-gray-200 dark:border-gray-800">
-    <div class="px-5 py-4">
+  <div id="mobile-menu" class="hidden bg-white dark:bg-[#0a0910] border-b border-gray-200 dark:border-gray-800 w-full">
+    <div class="w-full px-5 py-4">
       <!-- Categories Section -->
       <div class="mb-6">
         <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">Kategorije</h3>
@@ -88,8 +88,8 @@ const params = Astro.params
   </div>
 
   <!-- Breaking news ticker -->
-  <div class="bg-red-600 dark:bg-red-700 py-2 overflow-hidden">
-    <div class="px-5">
+  <div class="bg-red-600 dark:bg-red-700 py-2 overflow-hidden w-full">
+    <div class="w-full px-5">
       <div class="flex items-center">
         <div class="flex-shrink-0 font-bold mr-3 text-white text-sm">
           ZADNJE NOVICE:
