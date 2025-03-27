@@ -46,25 +46,3 @@ import MoonIcon from '@/components/icons/MoonIcon.astro'
 		</span>
 	</button>
 </theme-toggle>
-
-<script is:inline>
-	const button = document.getElementById('toggle-theme')
-
-	function setButtonPressed() {
-		const bodyThemeIsDark = document.documentElement.classList.contains('dark')
-		button.setAttribute('aria-pressed', String(bodyThemeIsDark))
-	}
-
-	// Set initial state
-	setButtonPressed()
-
-	// Update button state when theme changes
-	document.addEventListener('theme-change', () => {
-		setButtonPressed()
-	})
-
-	// Update button state after page navigation
-	document.addEventListener('astro:after-swap', () => {
-		setButtonPressed()
-	})
-</script>
