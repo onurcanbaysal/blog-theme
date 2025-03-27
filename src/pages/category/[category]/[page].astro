@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import ListPosts from '@/components/ListPosts.astro'
-import ListCategories from '@/components/ListCategories.astro'
 import TitlePage from '@/components/TitlePage.astro'
 import { sluglify, unsluglify, toAscii, getCategories, getPosts } from '@/utils'
 import { siteConfig } from '@/data/site.config'
@@ -45,7 +44,6 @@ const posts = page.data
 			{categoryDescription}
 		</p>
 	</div>
-	<ListCategories activeCategory={params.category} />
 	<ListPosts posts={posts} />
 	<Pagination page={page} />
 </BaseLayout>

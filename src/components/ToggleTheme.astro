@@ -4,31 +4,34 @@ import MoonIcon from '@/components/icons/MoonIcon.astro'
 ---
 
 <script>
-	class themeToggle extends HTMLElement {
+	class ThemeToggle extends HTMLElement {
 		constructor() {
 			super()
 			const button = this.querySelector('button') as HTMLButtonElement
 
 			if (button) {
-				button.addEventListener('click', (e) => {
-					if (e.currentTarget instanceof HTMLButtonElement) {
-						let isPressed = e.currentTarget.getAttribute('aria-pressed') === 'true'
-						let themeChangeEvent = new CustomEvent('theme-change', {
-							detail: {
-								theme: isPressed ? 'light' : 'dark'
-							}
-						})
-						// dispatch event -> ThemeProvider.astro
-						document.dispatchEvent(themeChangeEvent)
-						button.setAttribute('aria-pressed', String(!isPressed))
-					}
+				// Set initial state
+				const isDark = localStorage.getItem('theme') === 'dark' || 
+					(!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)
+				
+				document.documentElement.classList.toggle('dark', isDark)
+				button.setAttribute('aria-pressed', String(isDark))
+
+				// Add click handler
+				button.addEventListener('click', () => {
+					const isPressed = button.getAttribute('aria-pressed') === 'true'
+					const newTheme = isPressed ? 'light' : 'dark'
+					
+					document.documentElement.classList.toggle('dark')
+					localStorage.setItem('theme', newTheme)
+					button.setAttribute('aria-pressed', String(!isPressed))
 				})
 			}
 		}
 	}
 
 	if ('customElements' in window) {
-		customElements.define('theme-toggle', themeToggle)
+		customElements.define('theme-toggle', ThemeToggle)
 	}
 </script>
 
@@ -47,9 +50,21 @@ import MoonIcon from '@/components/icons/MoonIcon.astro'
 <script is:inline>
 	const button = document.getElementById('toggle-theme')
 
-	function setButtonPresssed() {
+	function setButtonPressed() {
 		const bodyThemeIsDark = document.documentElement.classList.contains('dark')
 		button.setAttribute('aria-pressed', String(bodyThemeIsDark))
 	}
-	setButtonPresssed()
+
+	// Set initial state
+	setButtonPressed()
+
+	// Update button state when theme changes
+	document.addEventListener('theme-change', () => {
+		setButtonPressed()
+	})
+
+	// Update button state after page navigation
+	document.addEventListener('astro:after-swap', () => {
+		setButtonPressed()
+	})
 </script>

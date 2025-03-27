@@ -1,5 +1,4 @@
 ---
-import ListCategories from '@/components/ListCategories.astro'
 import ListPosts from '@/components/ListPosts.astro'
 import TitlePage from '@/components/TitlePage.astro'
 import BaseLayout from '@/layouts/BaseLayout.astro'
@@ -15,8 +14,6 @@ const posts = await getPosts(MAX_POSTS)
 ---
 
 <BaseLayout title='Domov'>
-	<TitlePage title={siteConfig.title} />
-	<ListCategories />
 	<Hero />
 	<FeaturedGrid category="Narava" />
 	<SplitGrid category="Narava" />

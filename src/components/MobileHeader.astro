@@ -1,0 +1,142 @@
+---
+import { getCategories, sluglify } from '@/utils'
+import Category from '@/components/Category.astro'
+import Search from '@/components/Search.astro'
+import ToggleTheme from '@/components/ToggleTheme.astro'
+import { siteConfig } from '@/site-config'
+import TagIcon from './icons/TagIcon.astro'
+
+const categories = await getCategories()
+const { activeCategory } = Astro.props
+const params = Astro.params
+---
+
+<header class="md:hidden">
+  <!-- Top bar -->
+  <div class="bg-white dark:bg-[#0a0910] border-b border-gray-200 dark:border-gray-800">
+    <div class="px-5">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo -->
+        <div class="flex items-center gap-2">
+          <a href="/" class="flex items-center gap-2">
+            <span class="font-bold text-xl text-gray-900 dark:text-white">
+              {siteConfig.title}
+            </span>
+          </a>
+        </div>
+
+        <!-- Mobile Menu Button, Search and Theme Toggle -->
+        <div class="flex items-center gap-2">
+          <Search />
+          <a href="/tags" class="flex items-center justify-center w-10 h-10 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors">
+            <TagIcon class="w-5 h-5" />
+          </a>
+          <ToggleTheme />
+          <button id="mobile-menu-button" class="flex items-center justify-center w-10 h-10 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden bg-white dark:bg-[#0a0910] border-b border-gray-200 dark:border-gray-800">
+    <div class="px-5 py-4">
+      <!-- Categories Section -->
+      <div class="mb-6">
+        <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">Kategorije</h3>
+        <nav class="flex flex-col space-y-2">
+          <a href="/" class="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors py-2">
+            Vse
+          </a>
+          {
+            categories.map((category: string) => {
+              const unsluglifyNameCategory = sluglify(category.toLowerCase())
+              return (
+                <a 
+                  href={sluglify(`/category/${unsluglifyNameCategory}/1`)}
+                  class={`text-sm py-2 transition-colors ${
+                    params.category === unsluglifyNameCategory
+                      ? 'text-gray-900 dark:text-white font-medium'
+                      : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
+                  }`}
+                >
+                  {category}
+                </a>
+              )
+            })
+          }
+        </nav>
+      </div>
+
+      <!-- Links Section -->
+      <div class="border-t border-gray-200 dark:border-gray-800 pt-4">
+        <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">Drugo</h3>
+        <div class="flex flex-col space-y-2">
+          <a href="/about" class="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors py-2">
+            O nas
+          </a>
+          <a href="/contact" class="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors py-2">
+            Kontakt
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Breaking news ticker -->
+  <div class="bg-red-600 dark:bg-red-700 py-2 overflow-hidden">
+    <div class="px-5">
+      <div class="flex items-center">
+        <div class="flex-shrink-0 font-bold mr-3 text-white text-sm">
+          ZADNJE NOVICE:
+        </div>
+        <div class="overflow-hidden">
+          <div class="news-ticker flex items-center">
+            <!-- News items would be repeated here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    
+    // Toggle mobile menu
+    mobileMenuButton?.addEventListener('click', () => {
+      mobileMenu?.classList.toggle('hidden');
+      document.body.classList.toggle('overflow-hidden');
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', (event) => {
+      if (mobileMenu && !mobileMenu.contains(event.target as Node) && 
+          !mobileMenuButton?.contains(event.target as Node)) {
+        mobileMenu.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+      }
+    });
+  });
+</script>
+
+<style>
+  .news-ticker {
+    animation: ticker 20s linear infinite;
+  }
+
+  @keyframes ticker {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+</style>

@@ -1,0 +1,106 @@
+---
+import { getCategories, sluglify } from '@/utils'
+import Category from '@/components/Category.astro'
+import Search from '@/components/Search.astro'
+import ToggleTheme from '@/components/ToggleTheme.astro'
+import { siteConfig } from '@/site-config'
+import TagIcon from './icons/TagIcon.astro'
+
+const categories = await getCategories()
+const { activeCategory } = Astro.props
+const params = Astro.params
+const formattedDate = new Date().toLocaleDateString('sl-SI', { 
+    weekday: 'long', 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric' 
+})
+---
+
+<header class="hidden md:block relative">
+  <!-- Top bar with date and social links -->
+  <div class="bg-gray-50 dark:bg-[#0a0910] py-2 border-b border-gray-200 dark:border-gray-800">
+    <div class="container mx-auto px-5">
+      <div class="flex justify-between items-center">
+        <span class="text-xs text-gray-600 dark:text-gray-300">{formattedDate}</span>
+        <div class="flex items-center gap-4">
+          <a href="/about" class="text-xs text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+            <span class="inline-block">O nas</span>
+          </a>
+          <a href="/contact" class="text-xs text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+            <span class="inline-block">Kontakt</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main header -->
+  <div class="bg-white dark:bg-[#0a0910] border-b border-gray-200 dark:border-gray-800 sticky top-0 z-40">
+    <div class="container mx-auto px-5">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo -->
+        <div class="flex items-center gap-2">
+          <a href="/" class="flex items-center gap-2">
+            <span class="font-bold text-xl text-gray-900 dark:text-white">
+              {siteConfig.title}
+            </span>
+          </a>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <nav class="flex items-center">
+          <div class="relative flex flex-wrap min-w-full gap-5">
+            <Category />
+            {
+              categories.map((category: string) => (
+                <Category name={category} activeCategory={params.category} />
+              ))
+            }
+            <div class="hidden sm:block absolute w-full bottom-0 border-b-2 -z-40 dark:border-gray-700"></div>
+          </div>
+        </nav>
+
+        <!-- Search and Theme Toggle -->
+        <div class="flex items-center gap-3">
+          <Search />
+          <a href="/tags" class="flex items-center justify-center w-10 h-10 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors">
+            <TagIcon class="w-5 h-5" />
+          </a>
+          <ToggleTheme />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Breaking news ticker -->
+  <div class="bg-red-600 dark:bg-red-700 py-2 overflow-hidden">
+    <div class="container mx-auto px-5">
+      <div class="flex items-center">
+        <div class="flex-shrink-0 font-bold mr-3 text-white text-sm">
+          ZADNJE NOVICE:
+        </div>
+        <div class="overflow-hidden">
+          <div class="news-ticker flex items-center">
+            <!-- News items would be repeated here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .news-ticker {
+    animation: ticker 20s linear infinite;
+  }
+
+  @keyframes ticker {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+</style>
