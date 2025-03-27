@@ -15,14 +15,11 @@ const posts = await getPosts(MAX_POSTS)
 
 <BaseLayout title='Domov'>
 	<Hero />
-	<FeaturedGrid category="Narava" />
+	<GridPosts category="Zdravje" />
 	<SplitGrid category="Narava" />
-	<GridPosts category="Narava" />
-
-	<div class="container mx-auto px-5 py-10">
-		<h2 class='text-lg font-medium tracking-wide text-end'>Zadnje Objave</h2>
-		<ListPosts FirstBig={true} posts={posts} />
-	</div>
+	<FeaturedGrid category="Praznovanje" />
+	
+	
 </BaseLayout>
 
 <script>
