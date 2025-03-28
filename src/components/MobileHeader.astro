@@ -6,6 +6,7 @@ import ToggleTheme from '@/components/ToggleTheme.astro'
 import { Image } from 'astro:assets'
 import { siteConfig } from '@/site-config'
 import TagIcon from './icons/TagIcon.astro'
+import { getPosts } from '@/utils'
 
 const categories = await getCategories()
 const { activeCategory } = Astro.props
@@ -97,15 +98,24 @@ const params = Astro.params
   </div>
 
   <!-- Breaking news ticker -->
-  <div class="bg-red-600 dark:bg-red-700 py-2 overflow-hidden w-full">
+  <div class="bg-red-600 dark:bg-red-700 py-2 w-full">
     <div class="w-full px-5">
       <div class="flex items-center">
         <div class="flex-shrink-0 font-bold mr-3 text-white text-sm">
           ZADNJE NOVICE:
         </div>
         <div class="overflow-hidden">
-          <div class="news-ticker flex items-center">
-            <!-- News items would be repeated here -->
+          <div class="flex items-center">
+            {
+              (await getPosts(1)).map((post) => {
+                const { data: { title } } = post
+                return (
+                  <a href={`/${sluglify(post.slug)}/`} class="text-white hover:text-white/80 transition-colors">
+                    <span class="text-sm font-bold truncate max-w-[200px] block">{title}</span>
+                  </a>
+                )
+              })
+            }
           </div>
         </div>
       </div>
@@ -136,16 +146,5 @@ const params = Astro.params
 </script>
 
 <style>
-  .news-ticker {
-    animation: ticker 20s linear infinite;
-  }
-
-  @keyframes ticker {
-    0% {
-      transform: translateX(100%);
-    }
-    100% {
-      transform: translateX(-100%);
-    }
-  }
+  /* Remove the ticker animation styles since we're not using them anymore */
 </style>

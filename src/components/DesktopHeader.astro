@@ -1,5 +1,5 @@
 ---
-import { getCategories, sluglify } from '@/utils'
+import { getCategories, sluglify, getPosts } from '@/utils'
 import Category from '@/components/Category.astro'
 import Search from '@/components/Search.astro'
 import ToggleTheme from '@/components/ToggleTheme.astro'
@@ -16,6 +16,10 @@ const formattedDate = new Date().toLocaleDateString('sl-SI', {
     month: 'long', 
     day: 'numeric' 
 })
+
+// Get latest 5 posts for the ticker
+const MAX_POSTS = 5
+const latestPosts = await getPosts(MAX_POSTS)
 ---
 
 <header class="hidden lg:block relative w-full">
@@ -90,7 +94,33 @@ const formattedDate = new Date().toLocaleDateString('sl-SI', {
         </div>
         <div class="overflow-hidden">
           <div class="news-ticker flex items-center">
-            <!-- News items would be repeated here -->
+            {
+              latestPosts.map((post, index) => {
+                const { data: { title } } = post
+                return (
+                  <>
+                    <a href={`/${sluglify(post.slug)}/`} class="inline-flex items-center text-white hover:text-white/80 transition-colors whitespace-nowrap">
+                      <span class="text-sm font-bold">{title}</span>
+                    </a>
+                    {index < latestPosts.length - 1 && <span class="mx-4 text-white">•</span>}
+                  </>
+                )
+              })
+            }
+            {/* Duplicate posts for seamless loop */}
+            {
+              latestPosts.map((post, index) => {
+                const { data: { title } } = post
+                return (
+                  <>
+                    <a href={`/${sluglify(post.slug)}/`} class="inline-flex items-center text-white hover:text-white/80 transition-colors whitespace-nowrap">
+                      <span class="text-sm font-bold">{title}</span>
+                    </a>
+                    {index < latestPosts.length - 1 && <span class="mx-4 text-white">•</span>}
+                  </>
+                )
+              })
+            }
           </div>
         </div>
       </div>
@@ -100,15 +130,15 @@ const formattedDate = new Date().toLocaleDateString('sl-SI', {
 
 <style>
   .news-ticker {
-    animation: ticker 20s linear infinite;
+    animation: ticker 40s linear infinite;
   }
 
   @keyframes ticker {
     0% {
-      transform: translateX(100%);
+      transform: translateX(0);
     }
     100% {
-      transform: translateX(-100%);
+      transform: translateX(-50%);
     }
   }
 </style>
