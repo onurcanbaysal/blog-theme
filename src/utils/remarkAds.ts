@@ -26,7 +26,7 @@ export function remarkAds() {
         // Create an HTML node with our ad content
         const adNode = {
           type: 'html',
-          value: '<div class="ad-container"><div class="ad-content">ADS WILL COME HERE</div></div>'
+          value: ' '
         }
         // Insert the ad node after the current heading
         parent.children.splice(index + 1, 0, adNode)

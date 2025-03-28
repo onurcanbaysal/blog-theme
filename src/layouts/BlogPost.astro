@@ -6,7 +6,6 @@ import Tag from '@/components/Tag.astro'
 import type { MarkdownHeading } from 'astro'
 import { Image } from 'astro:assets'
 import Breadcrumbs from '@/components/Breadcrumbs.astro'
-import ResponsiveAd from '@/components/ResponsiveAd.astro'
 
 type Props = {
 	id: CollectionEntry<'blog'>['id']
@@ -72,7 +71,6 @@ const displayDate = updatedDate || pubDate
 		</>
 
 		<Breadcrumbs category={category[0]} title={title} />
-		<ResponsiveAd />
 		<div>
 			<slot />
 		</div>
@@ -91,8 +89,8 @@ const displayDate = updatedDate || pubDate
 				if (entry.isIntersecting) {
 					index?.classList.remove('bg-slate-200', 'dark:bg-slate-800') // remove bg
 					index?.classList.add(
-						'bg-indigo-600',
-						'dark:bg-indigo-700',
+						'bg-blue-600',
+						'dark:bg-blue-700',
 						'text-white',
 						'font-bold',
 						'transition-colors',
@@ -101,8 +99,8 @@ const displayDate = updatedDate || pubDate
 				} else {
 					index?.classList.add('bg-slate-200', 'dark:bg-slate-800') // add bg
 					index?.classList.remove(
-						'bg-indigo-600',
-						'dark:bg-indigo-700',
+						'bg-blue-600',
+						'dark:bg-blue-700',
 						'text-white',
 						'font-bold',
 						'transition-colors',

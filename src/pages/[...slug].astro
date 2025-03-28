@@ -3,7 +3,6 @@ import { type CollectionEntry, getCollection } from 'astro:content'
 import BlogPost from '@/layouts/BlogPost.astro'
 import Code from '@/components/mdx/Code.astro'
 import ListRelatedPosts from '@/components/ListRelatedPosts.astro'
-import SidebarAd from '@/components/SidebarAd.astro'
 import Share from '@/components/Share.astro'
 import TableOfContents from '@/components/TableOfContents.astro'
 import { getPosts } from '@/utils'
@@ -54,7 +53,6 @@ const disqusEnabled = disqusConfig.enabled
 			<Share />
 			<div class='sticky top-24 self-start hidden lg:block transition-all duration-200'>
 				{headings && headings.length > 0 && <TableOfContents {headings} />}
-				<SidebarAd    />
 			</div>
 		</aside>
 
