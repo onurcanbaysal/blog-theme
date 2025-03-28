@@ -1,0 +1,80 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import TitlePage from '@/components/TitlePage.astro'
+import { siteConfig } from '@/site-config'
+import { Schema } from 'astro-seo-schema'
+
+const title = 'O nas'
+const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+const canonicalURLString = canonicalURL.toString()
+---
+
+<BaseLayout title={title}>
+	<Schema
+		item={{
+			"@context": "https://schema.org",
+			"@type": "AboutPage",
+			"name": title,
+			"description": siteConfig.description,
+			"url": canonicalURLString,
+			"mainEntityOfPage": {
+				"@type": "WebPage",
+				"@id": canonicalURLString
+			},
+			"author": {
+				"@type": "Person",
+				"name": siteConfig.author
+			},
+			"inLanguage": siteConfig.lang,
+		}}
+	/>
+	<TitlePage title={title} />
+	
+    <div class="container mx-auto px-6 py-12 max-w-4xl">
+        <article class="prose prose-lg dark:prose-invert mx-auto">
+            <p class="font-medium text-lg">Dobrodošli na simail.si - <span class="italic">Svež pogled na današnje novice</span></p>
+            
+            <p>Simail.si je vodilni spletni portal za dnevne novice in aktualne informacije v Sloveniji. Naša misija je zagotavljati zanesljive, nepristranske in pravočasne novice iz Slovenije in sveta.</p>
+            
+            <h2>Naša vizija</h2>
+            <p>Ustvarjamo informativno okolje, kjer lahko bralci dostopajo do kakovostnih, preverjenih in raznolikih novic. Verjamemo, da informirani državljani prispevajo k boljši družbi.</p>
+            
+            <h2>Naša ekipa</h2>
+            <p>Simail.si ustvarja ekipa predanih novinarjev, urednikov in strokovnjakov z različnih področij. Naša strast do iskrenega poročanja in zavezanost k visoki kakovosti vsebin nas postavlja kot zaupanja vreden vir informacij.</p>
+            
+            <h2>Naša področja</h2>
+            <p>Pokrivamo širok spekter tem, vključno z:</p>
+            <ul>
+                <li><strong>Aktualne novice</strong> - dnevni dogodki v Sloveniji in svetu</li>
+                <li><strong>Politika</strong> - domača in mednarodna politična scena</li>
+                <li><strong>Gospodarstvo</strong> - finance, podjetništvo in ekonomija</li>
+                <li><strong>Zdravje</strong> - najnovejše informacije o zdravju in dobrem počutju</li>
+                <li><strong>Narava</strong> - okolje, trajnostni razvoj in podnebne spremembe</li>
+                <li><strong>Kultura</strong> - umetnost, zabava in kulturno dogajanje</li>
+                <li><strong>Šport</strong> - športni dogodki in dosežki</li>
+            </ul>
+            
+            <h2>Kontaktirajte nas</h2>
+            <p>Cenimo vaše mnenje in predloge. Za vsebinske predloge, povratne informacije ali poslovne poizvedbe nas kontaktirajte na <a href="mailto:info@simail.si">info@simail.si</a>.</p>
+            
+            <p class="mt-8 text-sm">Hvala, da ste del naše skupnosti bralcev!</p>
+        </article>
+    </div>
+</BaseLayout>
+
+<script>
+	import { animate } from 'motion'
+	const showAnimations = localStorage.getItem('animations') === 'true'
+
+	if (showAnimations) {
+		animate(
+			'.title',
+			{ y: [80, 0], opacity: [0, 1] },
+			{
+				duration: 2.5,
+				opacity: { duration: 3 },
+				offset: [0, 0.55, 0.75]
+			}
+		)
+	}
+</script> 

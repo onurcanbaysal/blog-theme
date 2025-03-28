@@ -1,0 +1,69 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import TitlePage from '@/components/TitlePage.astro'
+
+const title = 'Politika piškotkov'
+const lastUpdated = '28.03.2025'
+---
+
+<BaseLayout title={title}>
+	<TitlePage title={title} />
+	
+	<div class="container mx-auto px-6 py-12 max-w-4xl">
+        <article class="prose prose-lg dark:prose-invert mx-auto">
+            <p class="text-sm mb-8">Zadnja posodobitev: {lastUpdated}</p>
+            
+            <h2>Kaj so piškotki?</h2>
+            <p>Piškotki so majhne besedilne datoteke, ki se ob obisku spletne strani shranijo na vašo napravo. Ti piškotki omogočajo spletni strani, da si zapomni vaše dejanja in nastavitve v določenem časovnem obdobju, kar vam olajša uporabo strani ob ponovnem obisku.</p>
+            
+            <h2>Katere piškotke uporabljamo?</h2>
+            <p>Na spletni strani simail.si uporabljamo naslednje vrste piškotkov:</p>
+            
+            <h3>Nujno potrebni piškotki</h3>
+            <p>Ti piškotki so potrebni za pravilno delovanje naše spletne strani. Omogočajo osnovne funkcije, kot so navigacija po strani in dostop do varnih območij spletne strani. Spletna stran brez teh piškotkov ne more pravilno delovati.</p>
+            
+            <h3>Funkcionalni piškotki</h3>
+            <p>Ti piškotki omogočajo spletni strani, da si zapomni vaše izbire (kot je uporabniško ime, jezik ali regija) in zagotavlja izboljšane, bolj osebne funkcije.</p>
+            
+            <h3>Analitični piškotki</h3>
+            <p>Ti piškotki nam pomagajo razumeti, kako obiskovalci uporabljajo našo spletno stran. Uporabljamo jih za zbiranje anonimnih statističnih podatkov o uporabi strani, kar nam pomaga izboljšati delovanje spletne strani.</p>
+            
+            <h3>Oglaševalski piškotki</h3>
+            <p>Ti piškotki se uporabljajo za prikazovanje oglasov, ki so relevantni za vas in vaše interese. Pomagajo nam tudi meriti učinkovitost oglaševalskih kampanj.</p>
+            
+            <h2>Kako upravljati piškotke?</h2>
+            <p>Večina spletnih brskalnikov omogoča nadzor nad piškotki preko nastavitev brskalnika. Piškotke lahko blokirate, izbrišete ali dovolite le določene vrste piškotkov. Vendar pa lahko blokiranje določenih piškotkov vpliva na vašo izkušnjo uporabe spletne strani.</p>
+            
+            <p>Za več informacij o upravljanju piškotkov v vašem brskalniku obiščite:</p>
+            <ul>
+                <li><a href="https://support.google.com/chrome/answer/95647" target="_blank">Google Chrome</a></li>
+                <li><a href="https://support.mozilla.org/en-US/kb/enhanced-tracking-protection-firefox-desktop" target="_blank">Mozilla Firefox</a></li>
+                <li><a href="https://support.microsoft.com/en-us/microsoft-edge/delete-cookies-in-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09" target="_blank">Microsoft Edge</a></li>
+                <li><a href="https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/mac" target="_blank">Safari</a></li>
+            </ul>
+            
+            <h2>Spremembe politike piškotkov</h2>
+            <p>Pridržujemo si pravico do spremembe te politike piškotkov kadar koli in iz kakršnega koli razloga. Morebitne spremembe bodo objavljene na tej strani z navedbo datuma zadnje posodobitve.</p>
+            
+            <h2>Kontakt</h2>
+            <p>Če imate kakršna koli vprašanja v zvezi z našo politiko piškotkov, nas prosimo kontaktirajte na <a href="mailto:info@simail.si">info@simail.si</a>.</p>
+        </article>
+    </div>
+</BaseLayout>
+
+<script>
+	import { animate } from 'motion'
+	const showAnimations = localStorage.getItem('animations') === 'true'
+
+	if (showAnimations) {
+		animate(
+			'.title',
+			{ y: [80, 0], opacity: [0, 1] },
+			{
+				duration: 2.5,
+				opacity: { duration: 3 },
+				offset: [0, 0.55, 0.75]
+			}
+		)
+	}
+</script> 

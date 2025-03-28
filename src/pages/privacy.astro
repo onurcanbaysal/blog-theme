@@ -1,0 +1,85 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import TitlePage from '@/components/TitlePage.astro'
+
+const title = 'Politika zasebnosti'
+const lastUpdated = '28.03.2025'
+---
+
+<BaseLayout title={title}>
+	<TitlePage title={title} />
+	
+	<div class="container mx-auto px-6 py-12 max-w-4xl">
+        <article class="prose prose-lg dark:prose-invert mx-auto">
+            <p class="text-sm mb-8">Zadnja posodobitev: {lastUpdated}</p>
+            
+            <h2>Uvod</h2>
+            <p>Na spletni strani simail.si spoštujemo vašo zasebnost in varovanje osebnih podatkov jemljemo zelo resno. Ta politika zasebnosti opisuje, katere podatke zbiramo, kako jih uporabljamo in kakšne so vaše pravice v zvezi z njimi.</p>
+            
+            <h2>Katere osebne podatke zbiramo</h2>
+            <p>Odvisno od vaše interakcije z našo spletno stranjo lahko zbiramo naslednje osebne podatke:</p>
+            <ul>
+                <li><strong>Podatki, ki nam jih posredujete neposredno</strong>: Vaše ime, e-poštni naslov in druge kontaktne podatke, ki nam jih posredujete ob registraciji, naročilu na novice ali ko nas kontaktirate.</li>
+                <li><strong>Podatki, ki jih zbiramo samodejno</strong>: Informacije o vaši napravi, IP naslov, vrsta brskalnika, čas obiska, strani, ki ste jih obiskali, in druge podatke o uporabi spletne strani.</li>
+                <li><strong>Podatki iz piškotkov</strong>: Uporabljamo piškotke in podobne tehnologije za zbiranje podatkov o vaši uporabi naše spletne strani. Za več informacij o tem si oglejte našo <a href="/cookies">Politiko piškotkov</a>.</li>
+            </ul>
+            
+            <h2>Kako uporabljamo vaše podatke</h2>
+            <p>Vaše osebne podatke uporabljamo za naslednje namene:</p>
+            <ul>
+                <li>Za zagotavljanje in izboljšanje naših storitev</li>
+                <li>Za odgovarjanje na vaša vprašanja in zahteve</li>
+                <li>Za pošiljanje pomembnih obvestil in posodobitev o naši spletni strani</li>
+                <li>Za pošiljanje novic in marketinških sporočil (če ste se nanje naročili)</li>
+                <li>Za analizo in izboljšanje delovanja naše spletne strani</li>
+                <li>Za preprečevanje goljufij in zlorab</li>
+                <li>Za izpolnjevanje zakonskih obveznosti</li>
+            </ul>
+            
+            <h2>Deljenje vaših podatkov</h2>
+            <p>Vaših osebnih podatkov ne prodajamo tretjim osebam. Vaše podatke lahko delimo z:</p>
+            <ul>
+                <li><strong>Ponudniki storitev</strong>: Z zaupanja vrednimi partnerji, ki zagotavljajo storitve v našem imenu (npr. gostovanje spletne strani, analitika, e-poštne storitve).</li>
+                <li><strong>Zakonske zahteve</strong>: Kadar to zahteva zakon ali v primeru pravnih postopkov.</li>
+            </ul>
+            
+            <h2>Vaše pravice</h2>
+            <p>V skladu z veljavno zakonodajo o varstvu podatkov imate naslednje pravice:</p>
+            <ul>
+                <li>Pravica do dostopa do vaših osebnih podatkov</li>
+                <li>Pravica do popravka netočnih podatkov</li>
+                <li>Pravica do izbrisa podatkov v določenih okoliščinah</li>
+                <li>Pravica do omejitve obdelave</li>
+                <li>Pravica do prenosljivosti podatkov</li>
+                <li>Pravica do ugovora obdelavi vaših podatkov</li>
+                <li>Pravica do preklica soglasja kadar koli</li>
+            </ul>
+            
+            <h2>Varnost podatkov</h2>
+            <p>Sprejemamo ustrezne tehnične in organizacijske ukrepe za zaščito vaših osebnih podatkov pred izgubo, zlorabo in nepooblaščenim dostopom. Vendar pa noben prenos podatkov preko interneta ali elektronsko shranjevanje ni popolnoma varno, zato ne moremo zagotoviti absolutne varnosti.</p>
+            
+            <h2>Spremembe politike zasebnosti</h2>
+            <p>To politiko zasebnosti lahko občasno posodobimo. O pomembnih spremembah vas bomo obvestili z objavo vidnega obvestila na naši spletni strani ali z neposrednim e-poštnim sporočilom.</p>
+            
+            <h2>Kontakt</h2>
+            <p>Če imate kakršna koli vprašanja v zvezi z našo politiko zasebnosti ali obdelavo vaših osebnih podatkov, nas prosimo kontaktirajte na <a href="mailto:info@simail.si">info@simail.si</a>.</p>
+        </article>
+    </div>
+</BaseLayout>
+
+<script>
+	import { animate } from 'motion'
+	const showAnimations = localStorage.getItem('animations') === 'true'
+
+	if (showAnimations) {
+		animate(
+			'.title',
+			{ y: [80, 0], opacity: [0, 1] },
+			{
+				duration: 2.5,
+				opacity: { duration: 3 },
+				offset: [0, 0.55, 0.75]
+			}
+		)
+	}
+</script> 
